@@ -1,11 +1,235 @@
-import express from 'express';import multer from 'multer';import cookieSession from 'cookie-session';import fs from 'fs';import path from 'path';import crypto from 'crypto';import {fileURLToPath} from 'url';
-const __dirname=path.dirname(fileURLToPath(import.meta.url)),app=express(),PORT=process.env.PORT||3000,ADMIN_PASSWORD=process.env.ADMIN_PASSWORD||'123456',DATA=path.join(__dirname,'data'),VIDEOS=path.join(DATA,'videos'),DB=path.join(DATA,'courses.json');fs.mkdirSync(VIDEOS,{recursive:true});
-const defaults=[{id:'c0',t:'خط النسخ',g:'ن',price:'٣٥٠ جنيه',desc:'أساسيات النسخ من إمساك القلم إلى الحروف المتصلة.',ls:[{id:'l01',t:'أدوات الخط وإمساك القلم',d:'٤٥ دقيقة',ch:[['00:00','مقدمة'],['08:10','تجهيز القلم والحبر'],['27:40','وضعية الجلوس واليد']],video:null},{id:'l02',t:'الحروف المنفصلة',d:'٦٠ دقيقة',ch:[['00:00','الألف والدال والراء'],['22:15','الواو والميم'],['48:00','تمرين تطبيقي']],video:null}]},{id:'c1',t:'خط الرقعة',g:'ر',price:'٣٠٠ جنيه',desc:'مدخل عملي للرقعة والسرعة والانسياب.',ls:[]},{id:'c2',t:'الخط الفارسي (التعليق)',g:'ع',price:'٤٠٠ جنيه',desc:'جمال الخط الفارسي وميل الحروف وتمارين المد.',ls:[]}];
-const read=()=>{try{return JSON.parse(fs.readFileSync(DB))}catch{fs.writeFileSync(DB,JSON.stringify(defaults,null,2));return structuredClone(defaults)}};const write=d=>fs.writeFileSync(DB,JSON.stringify(d,null,2));read();
-app.use(express.json());app.use(cookieSession({name:'teacher',keys:[process.env.SESSION_KEY||'change-session-key'],httpOnly:true,sameSite:'lax',maxAge:43200000}));app.use(express.static(path.join(__dirname,'public')));const auth=(q,s,n)=>q.session?.teacher?n():s.status(401).json({error:'غير مصرح'});
-const upload=multer({storage:multer.diskStorage({destination:(q,f,cb)=>cb(null,VIDEOS),filename:(q,f,cb)=>cb(null,crypto.randomUUID()+path.extname(f.originalname).toLowerCase())}),limits:{fileSize:1024*1024*1024},fileFilter:(q,f,cb)=>cb(null,f.mimetype.startsWith('video/'))});
-app.post('/api/login',(q,s)=>{if(q.body?.password!==ADMIN_PASSWORD)return s.status(401).json({error:'كلمة المرور غير صحيحة'});q.session.teacher=true;s.json({ok:true})});app.post('/api/logout',(q,s)=>{q.session=null;s.json({ok:true})});app.get('/api/me',(q,s)=>s.json({teacher:!!q.session?.teacher}));app.get('/api/courses',(q,s)=>s.json(read()));
-app.post('/api/courses',(q,s,n)=>auth(q,s,n),(q,s)=>{let d=read();if(!q.body?.title?.trim())return s.status(400).json({error:'اسم الكورس مطلوب'});let c={id:'c'+crypto.randomUUID(),t:q.body.title.trim(),g:q.body.title.trim()[0],price:(q.body.price||'يحدد لاحقًا').trim(),desc:(q.body.desc||'').trim(),ls:[]};d.push(c);write(d);s.json(c)});
-app.delete('/api/courses/:id',(q,s,n)=>auth(q,s,n),(q,s)=>{let d=read(),c=d.find(x=>x.id===q.params.id);if(!c)return s.sendStatus(404);for(let l of c.ls||[])if(l.video)try{fs.unlinkSync(path.join(VIDEOS,l.video))}catch{}write(d.filter(x=>x.id!==q.params.id));s.json({ok:true})});
-app.post('/api/courses/:id/lessons',(q,s,n)=>auth(q,s,n),upload.single('video'),(q,s)=>{let d=read(),c=d.find(x=>x.id===q.params.id);if(!c)return s.sendStatus(404);if(!q.file)return s.status(400).json({error:'الفيديو مطلوب'});let ch=[];try{ch=JSON.parse(q.body.chapters||'[]')}catch{}let l={id:'l'+crypto.randomUUID(),t:(q.body.title||'حصة جديدة').trim(),d:Math.max(1,Math.round(q.file.size/1048576))+' MB',ch,video:q.file.filename};c.ls.push(l);write(d);s.json(l)});
-app.get('/api/videos/:file',(q,s)=>{let f=path.basename(q.params.file),p=path.join(VIDEOS,f);if(!fs.existsSync(p))return s.sendStatus(404);s.sendFile(p)});app.listen(PORT,()=>console.log('Dar Al Khatt Al Arabi on '+PORT));
+import express from 'express';
+import multer from 'multer';
+import cookieSession from 'cookie-session';
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Khaled 27';
+
+const DATA = path.join(__dirname, 'data');
+const VIDEOS = path.join(DATA, 'videos');
+const DB = path.join(DATA, 'courses.json');
+
+fs.mkdirSync(VIDEOS, { recursive: true });
+
+const defaults = [
+  {
+    id: 'c0',
+    t: 'خط النسخ',
+    g: 'ن',
+    price: '٣٥٠ جنيه',
+    desc: 'أساسيات النسخ من إمساك القلم إلى الحروف المتصلة.',
+    ls: []
+  },
+  {
+    id: 'c1',
+    t: 'خط الرقعة',
+    g: 'ر',
+    price: '٣٠٠ جنيه',
+    desc: 'مدخل عملي للرقعة والسرعة والانسياب.',
+    ls: []
+  },
+  {
+    id: 'c2',
+    t: 'الخط الفارسي (التعليق)',
+    g: 'ع',
+    price: '٤٠٠ جنيه',
+    desc: 'جمال الخط الفارسي وميل الحروف وتمارين المد.',
+    ls: []
+  }
+];
+
+function read() {
+  try {
+    return JSON.parse(fs.readFileSync(DB, 'utf8'));
+  } catch {
+    fs.writeFileSync(DB, JSON.stringify(defaults, null, 2));
+    return structuredClone(defaults);
+  }
+}
+
+function write(data) {
+  fs.writeFileSync(DB, JSON.stringify(data, null, 2));
+}
+
+read();
+
+app.use(express.json());
+
+app.use(
+  cookieSession({
+    name: 'teacher',
+    keys: [process.env.SESSION_KEY || 'dar-al-khatt-session-key'],
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 43200000
+  })
+);
+
+/* الملفات موجودة في جذر المشروع */
+app.use(express.static(__dirname));
+
+function auth(req, res, next) {
+  if (req.session?.teacher) return next();
+  return res.status(401).json({ error: 'غير مصرح' });
+}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => cb(null, VIDEOS),
+    filename: (req, file, cb) => {
+      cb(
+        null,
+        crypto.randomUUID() +
+          path.extname(file.originalname).toLowerCase()
+      );
+    }
+  }),
+  limits: {
+    fileSize: 1024 * 1024 * 1024
+  },
+  fileFilter: (req, file, cb) => {
+    cb(null, file.mimetype.startsWith('video/'));
+  }
+});
+
+/* تسجيل دخول المدرس */
+app.post('/api/login', (req, res) => {
+  if (req.body?.password !== ADMIN_PASSWORD) {
+    return res.status(401).json({
+      error: 'كلمة المرور غير صحيحة'
+    });
+  }
+
+  req.session.teacher = true;
+  res.json({ ok: true });
+});
+
+/* تسجيل الخروج */
+app.post('/api/logout', (req, res) => {
+  req.session = null;
+  res.json({ ok: true });
+});
+
+/* حالة تسجيل الدخول */
+app.get('/api/me', (req, res) => {
+  res.json({
+    teacher: !!req.session?.teacher
+  });
+});
+
+/* الكورسات */
+app.get('/api/courses', (req, res) => {
+  res.json(read());
+});
+
+/* إضافة كورس */
+app.post('/api/courses', auth, (req, res) => {
+  const data = read();
+
+  if (!req.body?.title?.trim()) {
+    return res.status(400).json({
+      error: 'اسم الكورس مطلوب'
+    });
+  }
+
+  const title = req.body.title.trim();
+
+  const course = {
+    id: 'c' + crypto.randomUUID(),
+    t: title,
+    g: title[0],
+    price: (req.body.price || 'يحدد لاحقًا').trim(),
+    desc: (req.body.desc || '').trim(),
+    ls: []
+  };
+
+  data.push(course);
+  write(data);
+
+  res.json(course);
+});
+
+/* حذف كورس */
+app.delete('/api/courses/:id', auth, (req, res) => {
+  const data = read();
+  const course = data.find(x => x.id === req.params.id);
+
+  if (!course) return res.sendStatus(404);
+
+  for (const lesson of course.ls || []) {
+    if (lesson.video) {
+      try {
+        fs.unlinkSync(path.join(VIDEOS, lesson.video));
+      } catch {}
+    }
+  }
+
+  write(data.filter(x => x.id !== req.params.id));
+
+  res.json({ ok: true });
+});
+
+/* رفع فيديو */
+app.post(
+  '/api/courses/:id/lessons',
+  auth,
+  upload.single('video'),
+  (req, res) => {
+    const data = read();
+    const course = data.find(x => x.id === req.params.id);
+
+    if (!course) return res.sendStatus(404);
+
+    if (!req.file) {
+      return res.status(400).json({
+        error: 'الفيديو مطلوب'
+      });
+    }
+
+    let chapters = [];
+
+    try {
+      chapters = JSON.parse(req.body.chapters || '[]');
+    } catch {}
+
+    const lesson = {
+      id: 'l' + crypto.randomUUID(),
+      t: (req.body.title || 'حصة جديدة').trim(),
+      d:
+        Math.max(
+          1,
+          Math.round(req.file.size / 1048576)
+        ) + ' MB',
+      ch: chapters,
+      video: req.file.filename
+    };
+
+    course.ls.push(lesson);
+    write(data);
+
+    res.json(lesson);
+  }
+);
+
+/* تشغيل الفيديو */
+app.get('/api/videos/:file', (req, res) => {
+  const file = path.basename(req.params.file);
+  const filePath = path.join(VIDEOS, file);
+
+  if (!fs.existsSync(filePath)) {
+    return res.sendStatus(404);
+  }
+
+  res.sendFile(filePath);
+});
+
+/* تشغيل الموقع */
+app.listen(PORT, () => {
+  console.log('Dar Al Khatt
