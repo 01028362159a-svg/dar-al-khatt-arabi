@@ -1,1 +1,1000 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080a0f"><title>دار الخط العربي</title><style>*{box-sizing:border-box}body{margin:0;background:#07090d;color:#f7f1df;font-family:system-ui;line-height:1.8;padding-bottom:75px}header{position:sticky;top:0;z-index:5;background:#080b10ee;backdrop-filter:blur(14px);border-bottom:1px solid #5c451c;padding:8px 16px}.hi{max-width:760px;margin:auto;display:flex;align-items:center;gap:12px}.logo{width:52px;height:52px;object-fit:cover;border-radius:14px;border:1px solid #c7922f}.brand{font-size:23px;font-weight:800;color:#f0c75e}.brand small{display:block;color:#969dab;font-size:10px}main{max-width:760px;margin:auto;padding:16px}.hero,.card{background:linear-gradient(145deg,#121923,#0b0e14);border:1px solid #5c451c;border-radius:22px;padding:20px;margin-bottom:14px}.hero{text-align:center}.hero img{width:190px;max-width:60%;border-radius:28px}.hero h1,h2,h3{font-family:Georgia,serif}.hero h1{font-size:42px;color:#fff0b5}.muted{color:#a9afba}.grid{display:grid;gap:12px}.course{width:100%;background:#11161f;color:inherit;border:1px solid #4e3b1d;border-radius:17px;padding:14px;text-align:right;display:flex;align-items:center;gap:12px}.glyph{width:62px;height:62px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#ffe49a,#ae7415);color:#171006;font:700 35px Georgia}.course h3{margin:0;font-size:22px}.gold{color:#e4ad3e}.btn{border:0;border-radius:12px;padding:10px 15px;background:linear-gradient(135deg,#f0c75e,#b87b16);font-weight:800;color:#171006}.ghost{background:transparent;color:#f5d982;border:1px solid #6a5124}.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}input,textarea,select{width:100%;background:#0d121a;color:#fff;border:1px solid #51401f;border-radius:11px;padding:11px;margin:5px 0 12px}textarea{min-height:90px}.lesson{border:1px solid #3d321e;border-radius:13px;margin:8px 0;overflow:hidden;background:#10151d}.lesson button{width:100%;background:none;border:0;color:inherit;padding:13px;text-align:right;display:flex;justify-content:space-between}.lesson ul{margin:0;padding:0 14px 10px;list-style:none}.lesson li{padding:5px;border-top:1px dashed #3d321e}.player{background:#000;border-radius:17px;overflow:hidden;margin:12px 0}.player video{width:100%;display:block}.hide{display:none!important}nav{position:fixed;bottom:0;inset-inline:0;background:#0c1017f2;border-top:1px solid #4f3d20;display:flex;z-index:10}nav button{flex:1;background:none;color:#aaa;border:0;padding:9px;font-weight:700}.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:18px;z-index:20}.modalbox{max-width:430px;width:100%;background:#10151d;border:1px solid #6c5222;border-radius:20px;padding:20px}.status{color:#e4ad3e}.adminitem{display:flex;justify-content:space-between;align-items:center;border:1px solid #3d321e;border-radius:12px;padding:10px;margin:7px 0}.danger{background:#4c1d1d;color:#ffd4d4}</style></head><body><header><div class="hi"><img class="logo" src="/logo.png"><div class="brand">دار الخط العربي<small>DAR ALKHATT ALARABI</small></div></div></header><main><section id="home"><div class="hero"><img src="/logo.png"><h1>تعلّم الخط العربي<br>على أصوله</h1><p class="muted">كورسات مصوّرة لتعلّم النسخ والرقعة والفارسي.</p><div class="actions"><button class="btn" onclick="show('courses')">تصفّح الكورسات</button><button class="btn ghost" onclick="show('about')">عن الدار</button></div></div><h2>الكورسات</h2><div id="courses" class="grid"></div><div id="about" class="card"><h2>عن دار الخط العربي</h2><p>المدرب: خالد سرحان</p><p>📍 ميت عساس – سمنود – بجوار الجمعية الشرعية</p><p>✉ khaledsarhan85@gmail.com</p><p>☎ 01003672766 — 01111608193</p><a class="gold" href="http://dar-el-khat-el-araby.blogspot.com/" target="_blank">موقع الدار</a></div></section><section id="course" class="hide"><button class="btn ghost" onclick="show('home')">رجوع</button><div id="courseBox"></div></section><section id="admin" class="hide"><div class="card"><h2>لوحة المدرّس 🔐</h2><div id="adminContent"></div></div></section></main><nav><button onclick="show('home')">⌂<br>الرئيسية</button><button onclick="show('home')">✒<br>الكورسات</button><button onclick="teacherPanel()">⚙<br>المدرس</button></nav><div id="login" class="modal hide"><div class="modalbox"><h2>دخول المدرّس</h2><p class="muted">هذه المنطقة للمدرس فقط.</p><input id="pw" type="password" placeholder="كلمة المرور"><button class="btn" style="width:100%" onclick="login()">دخول</button><p id="loginErr" class="status"></p></div></div><script>let data=[],current=null,teacher=false;const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));async function api(u,o={}){let r=await fetch(u,o),j={};try{j=await r.json()}catch{}if(!r.ok)throw Error(j.error||'حدث خطأ');return j}async function load(){data=await api('/api/courses');render()}function show(id){if(id==='courses')id='home';document.querySelectorAll('main>section').forEach(x=>x.classList.add('hide'));$('#'+id).classList.remove('hide');if(id==='home')render();scrollTo(0,0)}function render(){$('#courses').innerHTML=data.map(c=>`<button class="course" onclick="openCourse('${c.id}')"><span class="glyph">${esc(c.g)}</span><span><h3>${esc(c.t)}</h3><span class="muted">${c.ls.length} حصص · ${esc(c.desc||'')}</span><br><b class="gold">${esc(c.price)}</b></span></button>`).join('')}function openCourse(id){current=data.find(c=>c.id===id);$('#home').classList.add('hide');$('#course').classList.remove('hide');$('#courseBox').innerHTML=`<div class="card"><h2>${esc(current.t)}</h2><p class="muted">${esc(current.desc||'')} · ${esc(current.price)}</p><div id="player"></div>${current.ls.map(l=>`<div class="lesson"><button onclick="openLesson('${l.id}')"><span>${esc(l.t)}</span><span class="muted">${esc(l.d)}</span></button><ul id="ch${l.id}" class="hide">${(l.ch||[]).map(x=>`<li><b class="gold">${esc(x[0])}</b> — ${esc(x[1])}</li>`).join('')}</ul></div>`).join('')}</div>`}function openLesson(id){let l=current.ls.find(x=>x.id===id);$('#ch'+id)?.classList.toggle('hide');if(l.video)$('#player').innerHTML=`<div class="player"><video controls playsinline src="/api/videos/${encodeURIComponent(l.video)}"></video></div>`}async function teacherPanel(){let m=await api('/api/me');teacher=m.teacher;if(!teacher){$('#login').classList.remove('hide');return}show('admin');renderAdmin()}async function login(){try{await api('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('#pw').value})});teacher=true;$('#login').classList.add('hide');show('admin');renderAdmin()}catch(e){$('#loginErr').textContent=e.message}}function renderAdmin(){$('#adminContent').innerHTML=`<h3>إضافة كورس</h3><input id="ct" placeholder="اسم الكورس"><input id="cp" placeholder="السعر"><textarea id="cd" placeholder="وصف الكورس"></textarea><button class="btn" onclick="addCourse()">إضافة الكورس</button><hr><h3>رفع حصة فيديو</h3><select id="sel">${data.map(c=>`<option value="${c.id}">${esc(c.t)}</option>`).join('')}</select><input id="lt" placeholder="عنوان الحصة"><input id="vf" type="file" accept="video/*"><textarea id="ch" placeholder="00:00 مقدمة&#10;10:30 شرح"></textarea><button class="btn" onclick="uploadLesson()">رفع وحفظ الفيديو</button><p id="upStatus" class="status"></p><hr><h3>إدارة الكورسات</h3>${data.map(c=>`<div class="adminitem"><span>${esc(c.t)} (${c.ls.length})</span><button class="btn danger" onclick="delCourse('${c.id}')">حذف</button></div>`).join('')}<button class="btn ghost" onclick="logout()">تسجيل الخروج</button>`}async function addCourse(){try{await api('/api/courses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:$('#ct').value,price:$('#cp').value,desc:$('#cd').value})});await load();renderAdmin()}catch(e){alert(e.message)}}async function uploadLesson(){let f=$('#vf').files[0];if(!f)return alert('اختر الفيديو');let fd=new FormData();fd.append('video',f);fd.append('title',$('#lt').value);let ch=$('#ch').value.split('\n').filter(Boolean).map(s=>{let i=s.indexOf(' ');return i>0?[s.slice(0,i),s.slice(i+1)]:['',s]});fd.append('chapters',JSON.stringify(ch));$('#upStatus').textContent='جاري رفع الفيديو...';try{await api('/api/courses/'+$('#sel').value+'/lessons',{method:'POST',body:fd});$('#upStatus').textContent='تم رفع الفيديو';await load();renderAdmin()}catch(e){$('#upStatus').textContent=e.message}}async function delCourse(id){if(!confirm('حذف الكورس؟'))return;await api('/api/courses/'+id,{method:'DELETE'});await load();renderAdmin()}async function logout(){await api('/api/logout',{method:'POST'});teacher=false;show('home')}load().catch(e=>alert(e.message));</script></body></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دار الخط العربي</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#0b0b0b;
+  color:#fff;
+  font-family:Arial,"Tahoma",sans-serif;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+
+header{
+  padding:18px;
+  text-align:center;
+  border-bottom:1px solid #292929;
+  background:#0d0d0d;
+}
+.logo{
+  width:105px;
+  height:105px;
+  object-fit:contain;
+  border-radius:50%;
+}
+h1{
+  color:#d6aa55;
+  margin:10px 0 5px;
+}
+.subtitle{color:#aaa}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+
+.hero{
+  text-align:center;
+  padding:35px 10px;
+}
+.hero h2{
+  font-size:30px;
+  color:#d6aa55;
+}
+.hero p{color:#ccc}
+
+.section-title{
+  color:#d6aa55;
+  margin-top:30px;
+}
+
+.courses{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:#151515;
+  border:1px solid #292929;
+  border-radius:18px;
+  padding:20px;
+  transition:.2s;
+}
+.card:hover{transform:translateY(-3px)}
+.card h3{color:#d6aa55}
+.price{
+  color:#fff;
+  font-weight:bold;
+  font-size:20px;
+}
+.card p{color:#bbb;line-height:1.8}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  margin:5px;
+  background:#d6aa55;
+  color:#111;
+  font-weight:bold;
+}
+.btn.dark{
+  background:#222;
+  color:#fff;
+  border:1px solid #444;
+}
+.btn.red{
+  background:#8f2424;
+  color:#fff;
+}
+
+.panel{
+  background:#121212;
+  border:1px solid #292929;
+  border-radius:18px;
+  padding:20px;
+  margin-top:25px;
+}
+
+input,textarea{
+  width:100%;
+  background:#0b0b0b;
+  border:1px solid #333;
+  color:#fff;
+  padding:13px;
+  border-radius:10px;
+  margin:7px 0 12px;
+}
+textarea{min-height:100px;resize:vertical}
+
+.lesson{
+  background:#191919;
+  padding:15px;
+  border-radius:13px;
+  margin:10px 0;
+}
+.lesson h4{color:#d6aa55}
+
+video{
+  width:100%;
+  max-height:500px;
+  border-radius:12px;
+  margin-top:10px;
+  background:#000;
+}
+
+.hidden{display:none!important}
+
+nav{
+  position:sticky;
+  bottom:0;
+  background:#101010;
+  border-top:1px solid #292929;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:10px;
+  z-index:20;
+}
+
+.contact{
+  line-height:2;
+  color:#ccc;
+}
+.contact strong{color:#d6aa55}
+
+.status{
+  padding:12px;
+  border-radius:10px;
+  background:#181818;
+  margin:10px 0;
+  color:#ccc;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo.png" class="logo" alt="دار الخط العربي">
+  <h1>دار الخط العربي</h1>
+  <div class="subtitle">تعلم الخط العربي على أصوله</div>
+</header>
+
+<div class="container">
+
+<section id="home">
+  <div class="hero">
+    <h2>تعلّم الخط العربي على أصوله</h2>
+    <p>دورات ودروس متخصصة في فنون الخط العربي.</p>
+  </div>
+
+  <h2 class="section-title">الكورسات</h2>
+  <div id="courses" class="courses">
+    <div class="status">جاري تحميل الكورسات...</div>
+  </div>
+</section>
+
+<section id="coursePage" class="hidden">
+  <button class="btn dark" onclick="showHome()">← العودة للكورسات</button>
+  <div id="courseDetails"></div>
+</section>
+
+<section id="loginPage" class="hidden">
+  <div class="panel">
+    <h2 class="section-title">دخول المدرّس</h2>
+
+    <input id="loginEmail" type="email"
+      placeholder="البريد الإلكتروني">
+
+    <input id="loginPassword" type="password"
+      placeholder="كلمة المرور">
+
+    <button class="btn" onclick="loginTeacher()">دخول</button>
+
+    <div id="loginMessage"></div>
+  </div>
+</section>
+
+<section id="adminPage" class="hidden">
+
+  <div class="panel">
+    <h2 class="section-title">لوحة المدرّس</h2>
+
+    <div id="adminStatus" class="status">
+      جاري التحقق من الحساب...
+    </div>
+
+    <button class="btn dark" onclick="logoutTeacher()">
+      تسجيل الخروج
+    </button>
+  </div>
+
+  <div class="panel">
+    <h2 class="section-title">إضافة كورس جديد</h2>
+
+    <input id="courseTitle" placeholder="اسم الكورس">
+
+    <input id="coursePrice" placeholder="السعر مثال: 350 جنيه">
+
+    <textarea id="courseDescription"
+      placeholder="وصف الكورس"></textarea>
+
+    <button class="btn" onclick="addCourse()">
+      إضافة الكورس
+    </button>
+
+    <div id="courseMessage"></div>
+  </div>
+
+  <div class="panel">
+    <h2 class="section-title">إدارة الكورسات والدروس</h2>
+    <div id="adminCourses"></div>
+  </div>
+
+</section>
+
+<section id="contactSection">
+  <div class="panel">
+    <h2 class="section-title">تواصل معنا</h2>
+
+    <div class="contact">
+      <div><strong>الهاتف:</strong> 01003672766</div>
+      <div><strong>الهاتف:</strong> 01111608193</div>
+      <div><strong>العنوان:</strong> ميت عساس – سمنود – بجوار الجمعية الشرعية</div>
+      <div><strong>البريد:</strong> khaledsarhan85@gmail.com</div>
+      <div><strong>الموقع:</strong> دار الخط العربي</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<nav>
+  <button class="btn dark" onclick="showHome()">الرئيسية</button>
+  <button class="btn dark" onclick="openLogin()">لوحة المدرّس</button>
+</nav>
+
+<script>
+const SUPABASE_URL =
+"https://tshcvbiprtwricvdyzxi.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_PWNfw6H8wVbcf6DnWm1icQ_W40GknPF";
+
+const supabaseClient =
+supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const BUCKET = "videos";
+
+let courses = [];
+let currentCourse = null;
+
+
+/* =========================
+   تحميل الكورسات
+========================= */
+
+async function loadCourses(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("courses")
+      .select("*")
+      .order("title");
+
+  if(error){
+    document.getElementById("courses").innerHTML =
+      `<div class="status">حدث خطأ أثناء تحميل الكورسات.</div>`;
+    console.error(error);
+    return;
+  }
+
+  courses = data || [];
+
+  renderCourses();
+}
+
+
+/* =========================
+   عرض الكورسات
+========================= */
+
+function renderCourses(){
+
+  const box = document.getElementById("courses");
+
+  if(!courses.length){
+    box.innerHTML =
+      `<div class="status">لا توجد كورسات حاليًا.</div>`;
+    return;
+  }
+
+  box.innerHTML = courses.map(c => `
+    <div class="card">
+
+      <h3>${escapeHTML(c.title)}</h3>
+
+      <div class="price">
+        ${escapeHTML(c.price || "")}
+      </div>
+
+      <p>
+        ${escapeHTML(c.description || "")}
+      </p>
+
+      <button class="btn"
+        onclick="openCourse('${c.id}')">
+        مشاهدة الكورس
+      </button>
+
+    </div>
+  `).join("");
+}
+
+
+/* =========================
+   فتح الكورس
+========================= */
+
+async function openCourse(id){
+
+  const course = courses.find(x => x.id === id);
+
+  if(!course) return;
+
+  currentCourse = course;
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("contactSection")
+    .classList.add("hidden");
+
+  document.getElementById("coursePage")
+    .classList.remove("hidden");
+
+  const box = document.getElementById("courseDetails");
+
+  box.innerHTML = `
+    <div class="panel">
+      <h2 class="section-title">
+        ${escapeHTML(course.title)}
+      </h2>
+
+      <div class="price">
+        ${escapeHTML(course.price || "")}
+      </div>
+
+      <p>
+        ${escapeHTML(course.description || "")}
+      </p>
+
+      <h3 class="section-title">الدروس</h3>
+
+      <div id="lessonsBox">
+        جاري تحميل الدروس...
+      </div>
+    </div>
+  `;
+
+  const {data,error} =
+    await supabaseClient
+      .from("lessons")
+      .select("*")
+      .eq("course_id", id)
+      .order("title");
+
+  const lessonsBox =
+    document.getElementById("lessonsBox");
+
+  if(error){
+    lessonsBox.innerHTML =
+      `<div class="status">تعذر تحميل الدروس.</div>`;
+    return;
+  }
+
+  if(!data || !data.length){
+    lessonsBox.innerHTML =
+      `<div class="status">لا توجد دروس مضافة لهذا الكورس حتى الآن.</div>`;
+    return;
+  }
+
+  lessonsBox.innerHTML = data.map((lesson,index) => {
+
+    let videoURL = "";
+
+    if(lesson.video_path){
+
+      const result =
+        supabaseClient.storage
+          .from(BUCKET)
+          .getPublicUrl(lesson.video_path);
+
+      videoURL = result.data.publicUrl;
+    }
+
+    return `
+      <div class="lesson">
+
+        <h4>
+          الدرس ${index + 1}:
+          ${escapeHTML(lesson.title)}
+        </h4>
+
+        ${
+          lesson.duration
+          ? `<div>المدة: ${escapeHTML(lesson.duration)}</div>`
+          : ""
+        }
+
+        ${
+          videoURL
+          ? `
+            <video controls preload="metadata">
+              <source src="${videoURL}">
+              المتصفح لا يدعم تشغيل الفيديو.
+            </video>
+          `
+          : `
+            <div class="status">
+              لا يوجد فيديو لهذا الدرس.
+            </div>
+          `
+        }
+
+      </div>
+    `;
+
+  }).join("");
+}
+
+
+/* =========================
+   الرئيسية
+========================= */
+
+function showHome(){
+
+  document.getElementById("coursePage")
+    .classList.add("hidden");
+
+  document.getElementById("loginPage")
+    .classList.add("hidden");
+
+  document.getElementById("adminPage")
+    .classList.add("hidden");
+
+  document.getElementById("home")
+    .classList.remove("hidden");
+
+  document.getElementById("contactSection")
+    .classList.remove("hidden");
+}
+
+
+/* =========================
+   تسجيل دخول المدرس
+========================= */
+
+function openLogin(){
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("contactSection")
+    .classList.add("hidden");
+
+  document.getElementById("coursePage")
+    .classList.add("hidden");
+
+  document.getElementById("adminPage")
+    .classList.add("hidden");
+
+  document.getElementById("loginPage")
+    .classList.remove("hidden");
+}
+
+
+async function loginTeacher(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+  message.innerHTML =
+    `<div class="status">جاري تسجيل الدخول...</div>`;
+
+  const {error} =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+
+    message.innerHTML =
+      `<div class="status">
+        البريد الإلكتروني أو كلمة المرور غير صحيحة.
+      </div>`;
+
+    return;
+  }
+
+  message.innerHTML = "";
+
+  openAdmin();
+}
+
+
+/* =========================
+   لوحة المدرس
+========================= */
+
+async function openAdmin(){
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("coursePage")
+    .classList.add("hidden");
+
+  document.getElementById("loginPage")
+    .classList.add("hidden");
+
+  document.getElementById("contactSection")
+    .classList.add("hidden");
+
+  document.getElementById("adminPage")
+    .classList.remove("hidden");
+
+  document.getElementById("adminStatus").innerHTML =
+    "تم تسجيل الدخول كمدرّس.";
+
+  await loadAdminCourses();
+}
+
+
+/* =========================
+   تسجيل الخروج
+========================= */
+
+async function logoutTeacher(){
+
+  await supabaseClient.auth.signOut();
+
+  showHome();
+}
+
+
+/* =========================
+   إضافة كورس
+========================= */
+
+async function addCourse(){
+
+  const title =
+    document.getElementById("courseTitle")
+      .value.trim();
+
+  const price =
+    document.getElementById("coursePrice")
+      .value.trim();
+
+  const description =
+    document.getElementById("courseDescription")
+      .value.trim();
+
+  const message =
+    document.getElementById("courseMessage");
+
+  if(!title){
+
+    message.innerHTML =
+      `<div class="status">اكتب اسم الكورس أولًا.</div>`;
+
+    return;
+  }
+
+  const {error} =
+    await supabaseClient
+      .from("courses")
+      .insert({
+        id: crypto.randomUUID(),
+        title,
+        price,
+        description
+      });
+
+  if(error){
+
+    console.error(error);
+
+    message.innerHTML =
+      `<div class="status">
+        لم تتم إضافة الكورس. تأكد من صلاحيات المدرّس.
+      </div>`;
+
+    return;
+  }
+
+  document.getElementById("courseTitle").value = "";
+  document.getElementById("coursePrice").value = "";
+  document.getElementById("courseDescription").value = "";
+
+  message.innerHTML =
+    `<div class="status">تمت إضافة الكورس بنجاح.</div>`;
+
+  await loadCourses();
+  await loadAdminCourses();
+}
+
+
+/* =========================
+   لوحة إدارة الكورسات
+========================= */
+
+async function loadAdminCourses(){
+
+  const box =
+    document.getElementById("adminCourses");
+
+  const {data,error} =
+    await supabaseClient
+      .from("courses")
+      .select("*")
+      .order("title");
+
+  if(error){
+
+    box.innerHTML =
+      `<div class="status">تعذر تحميل الكورسات.</div>`;
+
+    return;
+  }
+
+  if(!data.length){
+
+    box.innerHTML =
+      `<div class="status">لا توجد كورسات.</div>`;
+
+    return;
+  }
+
+  box.innerHTML = data.map(c => `
+
+    <div class="card">
+
+      <h3>${escapeHTML(c.title)}</h3>
+
+      <p>${escapeHTML(c.description || "")}</p>
+
+      <button class="btn red"
+        onclick="deleteCourse('${c.id}')">
+        حذف الكورس
+      </button>
+
+      <hr style="border-color:#333">
+
+      <h3>إضافة درس وفيديو</h3>
+
+      <input
+        id="lessonTitle-${c.id}"
+        placeholder="اسم الدرس">
+
+      <input
+        id="lessonVideo-${c.id}"
+        type="file"
+        accept="video/*">
+
+      <button class="btn"
+        onclick="uploadLesson('${c.id}')">
+        رفع الفيديو
+      </button>
+
+      <div id="upload-${c.id}"></div>
+
+      <div id="lessons-${c.id}">
+        جاري تحميل الدروس...
+      </div>
+
+    </div>
+
+  `).join("");
+
+  for(const c of data){
+    await loadAdminLessons(c.id);
+  }
+}
+
+
+/* =========================
+   دروس لوحة التحكم
+========================= */
+
+async function loadAdminLessons(courseId){
+
+  const box =
+    document.getElementById("lessons-" + courseId);
+
+  const {data,error} =
+    await supabaseClient
+      .from("lessons")
+      .select("*")
+      .eq("course_id", courseId)
+      .order("title");
+
+  if(error){
+    box.innerHTML =
+      `<div class="status">تعذر تحميل الدروس.</div>`;
+    return;
+  }
+
+  if(!data.length){
+    box.innerHTML =
+      `<div class="status">لا توجد دروس.</div>`;
+    return;
+  }
+
+  box.innerHTML = data.map(l => `
+
+    <div class="lesson">
+
+      <strong>${escapeHTML(l.title)}</strong>
+
+      <br>
+
+      <button class="btn red"
+        onclick="deleteLesson('${l.id}','${escapeHTML(l.video_path || "")}')">
+        حذف الدرس
+      </button>
+
+    </div>
+
+  `).join("");
+}
+
+
+/* =========================
+   رفع فيديو
+========================= */
+
+async function uploadLesson(courseId){
+
+  const titleInput =
+    document.getElementById(
+      "lessonTitle-" + courseId
+    );
+
+  const fileInput =
+    document.getElementById(
+      "lessonVideo-" + courseId
+    );
+
+  const status =
+    document.getElementById(
+      "upload-" + courseId
+    );
+
+  const title =
+    titleInput.value.trim();
+
+  const file =
+    fileInput.files[0];
+
+  if(!title){
+
+    status.innerHTML =
+      `<div class="status">اكتب اسم الدرس.</div>`;
+
+    return;
+  }
+
+  if(!file){
+
+    status.innerHTML =
+      `<div class="status">اختر فيديو أولًا.</div>`;
+
+    return;
+  }
+
+  status.innerHTML =
+    `<div class="status">جاري رفع الفيديو...</div>`;
+
+  const extension =
+    file.name.split(".").pop();
+
+  const path =
+    `${courseId}/${crypto.randomUUID()}.${extension}`;
+
+  const {error:uploadError} =
+    await supabaseClient.storage
+      .from(BUCKET)
+      .upload(path, file, {
+        cacheControl:"3600",
+        upsert:false
+      });
+
+  if(uploadError){
+
+    console.error(uploadError);
+
+    status.innerHTML =
+      `<div class="status">
+        فشل رفع الفيديو. تأكد من صلاحيات Storage.
+      </div>`;
+
+    return;
+  }
+
+  const duration =
+    Math.round(file.size / 1024 / 1024) + " MB";
+
+  const {error:dbError} =
+    await supabaseClient
+      .from("lessons")
+      .insert({
+        id: crypto.randomUUID(),
+        course_id: courseId,
+        title,
+        video_path:path,
+        duration
+      });
+
+  if(dbError){
+
+    await supabaseClient.storage
+      .from(BUCKET)
+      .remove([path]);
+
+    console.error(dbError);
+
+    status.innerHTML =
+      `<div class="status">
+        تم رفع الفيديو لكن لم يتم حفظ بيانات الدرس.
+      </div>`;
+
+    return;
+  }
+
+  titleInput.value = "";
+  fileInput.value = "";
+
+  status.innerHTML =
+    `<div class="status">تم رفع الفيديو وإضافة الدرس بنجاح.</div>`;
+
+  await loadAdminLessons(courseId);
+}
+
+
+/* =========================
+   حذف درس
+========================= */
+
+async function deleteLesson(id,path){
+
+  if(!confirm("هل تريد حذف هذا الدرس؟")) return;
+
+  const {error} =
+    await supabaseClient
+      .from("lessons")
+      .delete()
+      .eq("id", id);
+
+  if(error){
+
+    alert("تعذر حذف الدرس.");
+    return;
+  }
+
+  if(path){
+
+    await supabaseClient.storage
+      .from(BUCKET)
+      .remove([path]);
+  }
+
+  await loadAdminCourses();
+  await loadCourses();
+}
+
+
+/* =========================
+   حذف كورس
+========================= */
+
+async function deleteCourse(id){
+
+  if(!confirm("هل تريد حذف الكورس وجميع دروسه؟")) return;
+
+  const {data:lessons} =
+    await supabaseClient
+      .from("lessons")
+      .select("video_path")
+      .eq("course_id",id);
+
+  const {error} =
+    await supabaseClient
+      .from("courses")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    alert("تعذر حذف الكورس.");
+    return;
+  }
+
+  if(lessons){
+
+    const files =
+      lessons
+        .map(x => x.video_path)
+        .filter(Boolean);
+
+    if(files.length){
+
+      await supabaseClient.storage
+        .from(BUCKET)
+        .remove(files);
+    }
+  }
+
+  await loadCourses();
+  await loadAdminCourses();
+}
+
+
+/* =========================
+   حماية عرض النصوص
+========================= */
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   بدء الموقع
+========================= */
+
+async function init(){
+
+  await loadCourses();
+
+  const {
+    data:{session}
+  } = await supabaseClient.auth.getSession();
+
+  if(session){
+    console.log("Teacher session active");
+  }
+}
+
+init();
+
+</script>
+
+</body>
+</html>
