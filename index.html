@@ -8,238 +8,111 @@
 <style>
 *{box-sizing:border-box}
 body{
-margin:0;
-background:#07090d;
-color:#f7f1df;
-font-family:system-ui;
-line-height:1.8;
-padding-bottom:70px
+ margin:0;background:#07090d;color:#f7f1df;
+ font-family:system-ui,Arial;line-height:1.8;padding-bottom:75px
 }
 header{
-padding:10px 16px;
-background:#080b10;
-border-bottom:1px solid #5c451c;
-position:sticky;
-top:0;
-z-index:5
+ padding:10px 16px;background:#080b10;
+ border-bottom:1px solid #5c451c;position:sticky;top:0;z-index:5
 }
-.hi{
-max-width:760px;
-margin:auto;
-display:flex;
-align-items:center;
-gap:12px
-}
+.hi{max-width:760px;margin:auto;display:flex;align-items:center;gap:12px}
 .logo{
-width:52px;
-height:52px;
-object-fit:cover;
-border-radius:14px;
-border:1px solid #c7922f
+ width:52px;height:52px;object-fit:cover;border-radius:14px;
+ border:1px solid #c7922f
 }
-.brand{
-font-size:23px;
-font-weight:800;
-color:#f0c75e
-}
-.brand small{
-display:block;
-color:#969dab;
-font-size:10px
-}
-main{
-max-width:760px;
-margin:auto;
-padding:16px
-}
+.brand{font-size:23px;font-weight:800;color:#f0c75e}
+.brand small{display:block;color:#969dab;font-size:10px}
+
+main{max-width:760px;margin:auto;padding:16px}
 .hero,.card{
-background:linear-gradient(145deg,#121923,#0b0e14);
-border:1px solid #5c451c;
-border-radius:22px;
-padding:20px;
-margin-bottom:14px
+ background:linear-gradient(145deg,#121923,#0b0e14);
+ border:1px solid #5c451c;border-radius:22px;padding:20px;margin-bottom:14px
 }
 .hero{text-align:center}
-.hero img{
-width:190px;
-max-width:60%;
-border-radius:28px
-}
-.hero h1{
-font-size:42px;
-color:#fff0b5
-}
-button,.btn{
-border:0;
-border-radius:12px;
-padding:10px 15px;
-background:linear-gradient(135deg,#f0c75e,#b87b16);
-font-weight:800;
-color:#171006;
-cursor:pointer
+.hero img{width:190px;max-width:60%;border-radius:28px}
+.hero h1{font-size:42px;color:#fff0b5}
+
+button{
+ border:0;border-radius:12px;padding:10px 15px;
+ background:linear-gradient(135deg,#f0c75e,#b87b16);
+ font-weight:800;color:#171006;cursor:pointer
 }
 .ghost{
-background:transparent;
-color:#f5d982;
-border:1px solid #6a5124
+ background:transparent;color:#f5d982;border:1px solid #6a5124
 }
-.grid{
-display:grid;
-gap:12px
-}
+.danger{background:#7d2630;color:#fff}
+.grid{display:grid;gap:12px}
+
 .course{
-width:100%;
-background:#11161f;
-color:inherit;
-border:1px solid #4e3b1d;
-text-align:right;
-display:flex;
-align-items:center;
-gap:12px;
-position:relative;
-overflow:hidden
+ width:100%;background:#11161f;color:inherit;
+ border:1px solid #4e3b1d;text-align:right;
+ display:flex;align-items:center;gap:12px
 }
 .glyph{
-width:62px;
-height:62px;
-display:grid;
-place-items:center;
-border-radius:15px;
-background:linear-gradient(145deg,#ffe49a,#ae7415);
-color:#171006;
-font:700 35px Georgia;
-flex-shrink:0
+ width:62px;height:62px;display:grid;place-items:center;
+ border-radius:15px;background:linear-gradient(145deg,#ffe49a,#ae7415);
+ color:#171006;font:700 35px Georgia
 }
-.course-info{
-flex:1
-}
+
 .lock{
-font-size:22px;
-margin-inline-start:auto
+ padding:16px;border:1px solid #6a5124;border-radius:16px;
+ background:#0d121a;margin-top:14px
 }
-.course-lock{
-position:absolute;
-top:10px;
-left:10px;
-width:40px;
-height:40px;
-border-radius:50%;
-display:grid;
-place-items:center;
-background:#684526;
-border:1px solid #f0c75e;
-box-shadow:0 3px 10px #0008;
-z-index:2
+.lock h3{margin-top:0;color:#f5d982}
+
+input,textarea,select{
+ width:100%;background:#0d121a;color:#fff;
+ border:1px solid #51401f;border-radius:11px;
+ padding:11px;margin:5px 0 12px
 }
+
+.hide{display:none!important}
+.muted{color:#a9afba}
+.gold,.status{color:#e4ad3e}
+
+.player video{
+ width:100%;margin-top:12px;max-height:420px
+}
+
 .modal{
-position:fixed;
-inset:0;
-background:#000b;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:18px;
-z-index:50
+ position:fixed;inset:0;background:#000b;
+ display:flex;align-items:center;justify-content:center;
+ padding:18px;z-index:50
 }
 .modal .card{
-width:min(520px,100%);
-margin:0
+ width:min(540px,100%);margin:0;
+ max-height:92vh;overflow:auto
 }
-input,textarea,select{
-width:100%;
-background:#0d121a;
-color:#fff;
-border:1px solid #51401f;
-border-radius:11px;
-padding:11px;
-margin:5px 0 12px
-}
-.hide{
-display:none!important
-}
-.muted{
-color:#a9afba
-}
-.gold,.status{
-color:#e4ad3e
-}
-.player video{
-width:100%;
-margin-top:12px;
-border-radius:14px;
-background:#000
-}
-.lock-box{
-padding:18px;
-border:1px solid #6a5124;
-border-radius:16px;
-background:#0d121a;
-margin-top:14px
-}
-.lock-box h3{
-margin-top:0;
-color:#f5d982
-}
-.danger{
-background:#7d2630;
-color:#fff
-}
+
 .badge{
-display:inline-block;
-padding:4px 9px;
-border-radius:999px;
-font-size:12px;
-background:#272d38;
-color:#ddd
+ display:inline-block;padding:4px 9px;border-radius:999px;
+ font-size:12px;background:#272d38;color:#ddd
 }
 .badge.pending{color:#f5d982}
 .badge.approved{color:#7ee2a8}
 .badge.rejected{color:#ff8b8b}
+
+.paybox{
+ border:1px solid #6a5124;border-radius:16px;
+ padding:14px;background:#17130c;margin:12px 0
+}
+.paynum{
+ font-size:24px;color:#f5d982;font-weight:900;
+ direction:ltr;text-align:center;letter-spacing:1px
+}
+
 nav{
-position:fixed;
-bottom:0;
-inset-inline:0;
-background:#0c1017;
-border-top:1px solid #4f3d20;
-display:flex;
-z-index:10
+ position:fixed;bottom:0;inset-inline:0;
+ background:#0c1017;border-top:1px solid #4f3d20;
+ display:flex;z-index:10
 }
 nav button{
-flex:1;
-background:none;
-color:#aaa;
-border:0;
-border-radius:0
+ flex:1;background:none;color:#aaa;
+ border:0;border-radius:0
 }
-.status-box{
-padding:15px;
-border-radius:14px;
-margin:12px 0
-}
-.pending-box{
-background:#332b18;
-border:1px solid #806522
-}
-.approved-box{
-background:#14291e;
-border:1px solid #39734d
-}
-.rejected-box{
-background:#30181b;
-border:1px solid #7d2630
-}
-.lesson-button{
-width:100%;
-margin:5px 0
-}
-.small{
-font-size:13px
-}
-hr{
-border:0;
-border-top:1px solid #45371f;
-margin:20px 0
-}
+
+.smallbtn{padding:7px 10px;font-size:13px}
+hr{border:0;border-top:1px solid #4f3d20;margin:20px 0}
 </style>
 </head>
 
@@ -247,7 +120,7 @@ margin:20px 0
 
 <header>
 <div class="hi">
-<img class="logo" src="/logo.png" alt="دار الخط العربي">
+<img class="logo" src="/logo.png" alt="شعار دار الخط العربي">
 <div class="brand">
 دار الخط العربي
 <small>DAR ALKHATT ALARABI</small>
@@ -260,47 +133,39 @@ margin:20px 0
 <section id="home">
 
 <div class="hero">
-
 <img src="/logo.png" alt="دار الخط العربي">
 
 <h1>
-تعلّم الخط العربي
-<br>
+تعلّم الخط العربي<br>
 على أصوله
 </h1>
 
 <p class="muted">
-كورسات مصوّرة لتعلّم الخط العربي
-مع الأستاذ خالد سرحان.
+كورسات مصوّرة لتعلّم النسخ والرقعة والفارسي.
 </p>
 
-<button onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
+<button onclick="goCourses()">
 تصفّح الكورسات
 </button>
-
 </div>
 
-<h2>🔒 الكورسات</h2>
+<h2>الكورسات</h2>
 
 <div id="courses" class="grid">
 جاري التحميل...
 </div>
 
 <div class="card">
-
 <h2>عن دار الخط العربي</h2>
 
 <p>المدرب: خالد سرحان</p>
-
 <p>📍 ميت عساس – سمنود – بجوار الجمعية الشرعية</p>
-
 <p>✉ khaledsarhan85@gmail.com</p>
-
 <p>☎ 01003672766 — 01111608193</p>
-
 </div>
 
 </section>
+
 
 <section id="course" class="hide">
 
@@ -312,20 +177,21 @@ margin:20px 0
 
 </section>
 
+
 <section id="mycourses" class="hide">
 
 <div class="card">
 
-<h2>🎓 كورساتي</h2>
+<h2>كورساتي</h2>
 
 <p class="muted">
 اكتب رقم الهاتف الذي قدمت به طلب الاشتراك.
 </p>
 
 <input
-id="checkPhone"
-inputmode="tel"
-placeholder="رقم الهاتف">
+ id="checkPhone"
+ inputmode="tel"
+ placeholder="رقم الهاتف">
 
 <button onclick="checkMyCourses()">
 التحقق
@@ -337,15 +203,14 @@ placeholder="رقم الهاتف">
 
 </section>
 
+
 <section id="admin" class="hide">
 
 <div class="card">
 
 <h2>لوحة المدرّس 🔐</h2>
 
-<div id="adminContent">
-جاري التحميل...
-</div>
+<div id="adminContent"></div>
 
 </div>
 
@@ -353,59 +218,46 @@ placeholder="رقم الهاتف">
 
 </main>
 
+
 <nav>
 
 <button onclick="show('home')">
-⌂
-<br>
-الرئيسية
+⌂<br>الرئيسية
 </button>
 
-<button onclick="
-show('home');
-document.getElementById('courses').scrollIntoView({behavior:'smooth'})
-">
-✒
-<br>
-الكورسات
+<button onclick="goCourses()">
+✒<br>الكورسات
 </button>
 
 <button onclick="show('mycourses')">
-🎓
-<br>
-كورساتي
+🎓<br>كورساتي
 </button>
 
 <button onclick="teacherPanel()">
-⚙
-<br>
-المدرس
+⚙<br>المدرس
 </button>
 
 </nav>
 
+
+<!-- تسجيل دخول المدرس -->
+
 <div
-id="login"
-class="card hide"
-style="
-position:fixed;
-inset:15%;
-z-index:20;
-max-height:70vh;
-overflow:auto
-">
+ id="login"
+ class="card hide"
+ style="position:fixed;inset:12%;z-index:30">
 
 <h2>دخول المدرّس</h2>
 
 <input
-id="email"
-type="email"
-placeholder="البريد الإلكتروني">
+ id="email"
+ type="email"
+ placeholder="البريد الإلكتروني">
 
 <input
-id="password"
-type="password"
-placeholder="كلمة المرور">
+ id="password"
+ type="password"
+ placeholder="كلمة المرور">
 
 <button onclick="login()">
 دخول
@@ -415,1215 +267,1422 @@ placeholder="كلمة المرور">
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
+<!-- صفحة الدفع -->
 
-const db = supabase.createClient(
-"https://tshcvbiprtwricvdyzxi.supabase.co",
-"sb_publishable_PWNfw6H8wVbcf6DnWm1icQ_W40GknPF"
-);
-
-let data = [];
-let current = null;
-
-const $ = x => document.querySelector(x);
-
-const esc = x =>
-String(x ?? '')
-.replace(/[&<>"']/g,m=>({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#39;'
-}[m]));
-
-function show(id){
-
-document
-.querySelectorAll('main>section')
-.forEach(x => x.classList.add('hide'));
-
-const target = document.getElementById(id);
-
-if(target){
-target.classList.remove('hide');
-}
-
-scrollTo(0,0);
-}
-
-async function load(){
-
-const courseResult =
-await db
-.from('courses')
-.select('*')
-.order('title',{ascending:true});
-
-if(courseResult.error)
-throw courseResult.error;
-
-data = [];
-
-for(const c of courseResult.data || []){
-
-const lessonResult =
-await db
-.from('lessons')
-.select('*')
-.eq('course_id',c.id)
-.order('title',{ascending:true});
-
-if(lessonResult.error)
-throw lessonResult.error;
-
-data.push({
-...c,
-t:c.title,
-g:(c.title || 'ك')[0],
-ls:lessonResult.data || []
-});
-
-}
-
-render();
-
-}
-
-function render(){
-
-const box = document.getElementById('courses');
-
-if(!data.length){
-
-box.innerHTML =
-'<div class="card">لا توجد كورسات حاليًا.</div>';
-
-return;
-}
-
-box.innerHTML =
-data.map(c => `
-
-<button
-class="course"
-onclick="openCourse('${c.id}')">
-
-<div class="course-lock">
-🔒
-</div>
-
-<span class="glyph">
-${esc(c.g)}
-</span>
-
-<span class="course-info">
-
-<b>${esc(c.t)}</b>
-
-<br>
-
-<span class="muted">
-${c.ls.length} حصص
-</span>
-
-<br>
-
-<span class="gold">
-${esc(c.price || '')}
-</span>
-
-</span>
-
-<span class="lock">
-🔒
-</span>
-
-</button>
-
-`).join('');
-
-}
-
-async function openCourse(id){
-
-current = data.find(c => c.id === id);
-
-if(!current)
-return;
-
-show('course');
-
-document.getElementById('courseBox').innerHTML = `
+<div id="paymentModal" class="modal hide">
 
 <div class="card">
 
-<h2>
-🔒 ${esc(current.t)}
-</h2>
+<h2>💳 الاشتراك في الكورس</h2>
 
-<p>
-${esc(current.description || '')}
-</p>
+<p id="payCourse"></p>
 
-<div id="accessBox" class="lock-box">
-جاري التحقق من الاشتراك...
+
+<div class="paybox">
+
+<div>
+سعر الكورس:
 </div>
 
-<div id="player"></div>
+<div id="payPrice" class="paynum"></div>
 
-<div id="lessonList"></div>
+<hr>
 
+<div>
+حوّل المبلغ إلى رقم Vodafone Cash:
 </div>
-`;
 
-await refreshCourseAccess();
-
-}
-
-async function refreshCourseAccess(){
-
-const box = document.getElementById('accessBox');
-const list = document.getElementById('lessonList');
-
-if(!current)
-return;
-
-const phone =
-localStorage.getItem('student_phone') || '';
-
-if(!phone){
-
-box.innerHTML = `
-
-<h3>🔒 الكورس مقفول</h3>
+<div class="paynum">
+01003672766
+</div>
 
 <p class="muted">
-هذا الكورس متاح فقط للطلاب الذين تم قبول اشتراكهم.
-</p>
-
-<button onclick="showSubscribe()">
-📝 طلب الاشتراك
-</button>
-
-`;
-
-list.innerHTML = '';
-
-return;
-}
-
-const r =
-await db
-.from('enrollment_requests')
-.select('status')
-.eq('course_id',current.id)
-.eq('student_phone',phone)
-.order('created_at',{ascending:false})
-.limit(1);
-
-if(r.error){
-
-box.innerHTML =
-'<p class="status">تعذر التحقق من حالة الاشتراك.</p>';
-
-list.innerHTML = '';
-
-return;
-}
-
-const row = (r.data || [])[0];
-
-if(!row){
-
-box.innerHTML = `
-
-<h3>🔒 الكورس مقفول</h3>
-
-<p class="muted">
-لم يتم إرسال طلب اشتراك لهذا الرقم.
-</p>
-
-<button onclick="showSubscribe()">
-📝 طلب الاشتراك
-</button>
-
-`;
-
-list.innerHTML = '';
-
-return;
-}
-
-if(row.status === 'approved'){
-
-box.innerHTML = `
-
-<div class="status-box approved-box">
-
-<h3>✅ الاشتراك مفعل</h3>
-
-<p>
-تم قبول اشتراكك ويمكنك مشاهدة الحصص.
-</p>
-
-</div>
-`;
-
-if(!current.ls.length){
-
-list.innerHTML = `
-<div class="lock-box">
-لا توجد حصص مضافة لهذا الكورس حاليًا.
-</div>
-`;
-
-return;
-}
-
-list.innerHTML =
-current.ls.map(l => `
-
-<button
-class="lesson-button"
-onclick="play('${l.id}')">
-
-🎬 ${esc(l.title)}
-
-</button>
-
-`).join('');
-
-return;
-}
-
-if(row.status === 'pending'){
-
-box.innerHTML = `
-
-<div class="status-box pending-box">
-
-<h3>⏳ الطلب قيد المراجعة</h3>
-
-<p>
-تم إرسال طلبك وبانتظار موافقة المدرّس.
-</p>
-
-</div>
-`;
-
-list.innerHTML = '';
-
-return;
-}
-
-box.innerHTML = `
-
-<div class="status-box rejected-box">
-
-<h3>❌ تم رفض الطلب</h3>
-
-<p>
-يمكنك إرسال طلب اشتراك جديد.
+يمكنك التحويل من Vodafone Cash أو Orange Cash
+أو Etisalat Cash أو WE Pay.
 </p>
 
 </div>
 
-<button onclick="showSubscribe()">
-📝 إرسال طلب جديد
-</button>
-`;
-
-list.innerHTML = '';
-
-}
-
-function showSubscribe(){
-
-const box = document.getElementById('accessBox');
-
-box.innerHTML = `
-
-<h3>📝 طلب الاشتراك</h3>
 
 <input
-id="sn"
-placeholder="اسم الطالب">
+ id="studentName"
+ placeholder="اسم الطالب">
 
 <input
-id="sp"
-inputmode="tel"
-placeholder="رقم الهاتف">
+ id="studentPhone"
+ inputmode="tel"
+ placeholder="رقم هاتف الطالب">
+
+<input
+ id="fromWallet"
+ inputmode="tel"
+ placeholder="رقم المحفظة التي تم التحويل منها">
+
+<input
+ id="transferRef"
+ placeholder="رقم العملية / مرجع التحويل">
 
 <textarea
-id="sm"
-placeholder="ملاحظة اختيارية"></textarea>
+ id="studentNote"
+ placeholder="ملاحظة إضافية (اختياري)">
+</textarea>
 
-<button onclick="submitRequest()">
+
+<button onclick="submitPayment()">
 إرسال طلب الاشتراك
 </button>
 
 <button
-class="ghost"
-style="margin-right:6px"
-onclick="refreshCourseAccess()">
-
-رجوع
-
+ class="ghost"
+ onclick="closePayment()">
+إلغاء
 </button>
 
-<p id="reqStatus" class="status"></p>
+<p id="payMsg" class="status"></p>
 
-`;
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+const db = supabase.createClient(
+ "https://tshcvbiprtwricvdyzxi.supabase.co",
+ "sb_publishable_PWNfw6H8wVbcf6DnWm1icQ_W40GknPF"
+);
+
+
+let data = [];
+let current = null;
+
+
+const $ = x => document.querySelector(x);
+
+
+const esc = x =>
+ String(x ?? '').replace(/[&<>"']/g,m => ({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ }[m]));
+
+
+function show(id){
+
+ document
+ .querySelectorAll('main>section')
+ .forEach(x => x.classList.add('hide'));
+
+ $('#'+id).classList.remove('hide');
+
+ scrollTo(0,0);
+}
+
+
+function goCourses(){
+
+ show('home');
+
+ setTimeout(() => {
+
+  $('#courses').scrollIntoView({
+   behavior:'smooth'
+  });
+
+ },50);
+}
+
+
+function money(v){
+
+ return v ? String(v) : 'غير محدد';
 
 }
 
-async function submitRequest(){
 
-const name =
-document.getElementById('sn').value.trim();
+/* تحميل الكورسات */
 
-const phone =
-document.getElementById('sp').value.trim();
+async function load(){
 
-const note =
-document.getElementById('sm').value.trim();
+ const r = await db
+ .from('courses')
+ .select('*');
 
-const status =
-document.getElementById('reqStatus');
+ if(r.error)
+  throw r.error;
 
-if(!name || !phone){
 
-status.textContent =
-'اكتب الاسم ورقم الهاتف أولًا';
+ data = [];
 
-return;
-}
 
-status.textContent =
-'جاري إرسال الطلب...';
+ for(const c of (r.data || [])){
 
-const existing =
-await db
-.from('enrollment_requests')
-.select('status')
-.eq('course_id',current.id)
-.eq('student_phone',phone)
-.order('created_at',{ascending:false})
-.limit(1);
+  const l = await db
+   .from('lessons')
+   .select('*')
+   .eq('course_id',c.id);
 
-if(existing.error){
 
-status.textContent =
-'حدث خطأ أثناء التحقق.';
+  if(l.error)
+   throw l.error;
 
-return;
-}
 
-const old =
-(existing.data || [])[0];
+  data.push({
 
-if(old && old.status === 'approved'){
+   ...c,
 
-localStorage.setItem('student_phone',phone);
+   t:c.title,
 
-status.textContent =
-'أنت مشترك بالفعل في هذا الكورس.';
+   g:(c.title || 'ك')[0],
 
-setTimeout(refreshCourseAccess,500);
+   ls:l.data || []
 
-return;
-}
+  });
 
-if(old && old.status === 'pending'){
+ }
 
-localStorage.setItem('student_phone',phone);
 
-status.textContent =
-'يوجد طلب قيد المراجعة بالفعل.';
-
-setTimeout(refreshCourseAccess,500);
-
-return;
-}
-
-const r =
-await db
-.from('enrollment_requests')
-.insert({
-
-course_id:current.id,
-student_name:name,
-student_phone:phone,
-note:note,
-status:'pending'
-
-});
-
-if(r.error){
-
-status.textContent =
-'حدث خطأ: ' + r.error.message;
-
-return;
-}
-
-localStorage.setItem('student_phone',phone);
-
-status.textContent =
-'تم إرسال الطلب بنجاح ✅';
-
-setTimeout(refreshCourseAccess,700);
+ render();
 
 }
 
-/* تشغيل الفيديو بعد الموافقة باستخدام Signed URL */
+
+/* عرض الكورسات */
+
+function render(){
+
+ $('#courses').innerHTML =
+ data.length
+
+ ?
+
+ data.map(c => `
+
+ <button
+ class="course"
+ onclick="openCourse('${c.id}')">
+
+ <span class="glyph">
+ ${esc(c.g)}
+ </span>
+
+ <span>
+
+ <b>${esc(c.t)}</b>
+
+ <br>
+
+ <span class="muted">
+ ${c.ls.length} حصص
+ </span>
+
+ <br>
+
+ <span class="gold">
+ ${esc(c.price || '')}
+ </span>
+
+ </span>
+
+ <span
+ style="margin-inline-start:auto;font-size:22px">
+
+ 🔒
+
+ </span>
+
+ </button>
+
+ `).join('')
+
+ :
+
+ '<div class="card">لا توجد كورسات حاليًا.</div>';
+
+}
+
+
+/* فتح الكورس */
+
+async function openCourse(id){
+
+ current = data.find(c => c.id === id);
+
+ if(!current)
+  return;
+
+
+ show('course');
+
+
+ $('#courseBox').innerHTML = `
+
+ <div class="card">
+
+ <h2>
+ ${esc(current.t)}
+ </h2>
+
+ <p>
+ ${esc(current.description || '')}
+ </p>
+
+ <div
+ id="accessBox"
+ class="lock">
+
+ جاري التحقق من الاشتراك...
+
+ </div>
+
+ <div id="player"></div>
+
+ <div id="lessonList"></div>
+
+ </div>
+
+ `;
+
+
+ await refreshCourseAccess();
+
+}
+
+
+/* التحقق من الاشتراك */
+
+async function refreshCourseAccess(){
+
+ const box = $('#accessBox');
+
+ const list = $('#lessonList');
+
+ if(!current)
+  return;
+
+
+ const phone =
+ localStorage.getItem('student_phone') || '';
+
+
+ if(!phone){
+
+  box.innerHTML = `
+
+  <h3>🔒 الكورس مقفول</h3>
+
+  <p class="muted">
+  لازم تشترك وتنتظر موافقة المدرّس
+  قبل مشاهدة الحصص.
+  </p>
+
+  <button onclick="openPayment()">
+  اشترك الآن
+  </button>
+
+  `;
+
+  list.innerHTML = '';
+
+  return;
+
+ }
+
+
+ const r = await db
+ .from('enrollment_requests')
+ .select('status,student_name,student_phone,created_at')
+ .eq('course_id',current.id)
+ .eq('student_phone',phone)
+ .order('created_at',{
+  ascending:false
+ })
+ .limit(1);
+
+
+ if(r.error){
+
+  box.innerHTML =
+  '<p class="status">تعذر التحقق من الاشتراك.</p>';
+
+  list.innerHTML = '';
+
+  return;
+
+ }
+
+
+ const row =
+ (r.data || [])[0];
+
+
+ if(!row){
+
+  box.innerHTML = `
+
+  <h3>🔒 الكورس مقفول</h3>
+
+  <p class="muted">
+  لم يتم العثور على طلب اشتراك لهذا الرقم.
+  </p>
+
+  <button onclick="openPayment()">
+  اشترك الآن
+  </button>
+
+  `;
+
+  list.innerHTML = '';
+
+  return;
+
+ }
+
+
+ if(row.status === 'approved'){
+
+  box.innerHTML = `
+
+  <h3>✅ الاشتراك مفعل</h3>
+
+  <p class="muted">
+  يمكنك مشاهدة الحصص.
+  </p>
+
+  `;
+
+
+  list.innerHTML =
+   current.ls.length
+
+   ?
+
+   current.ls.map(l => `
+
+   <button
+   style="width:100%;margin:5px 0"
+   onclick="play('${l.id}')">
+
+   ▶ ${esc(l.title)}
+
+   </button>
+
+   `).join('')
+
+   :
+
+   '<p class="muted">لم تتم إضافة حصص لهذا الكورس بعد.</p>';
+
+ }
+
+
+ else if(row.status === 'pending'){
+
+  box.innerHTML = `
+
+  <h3>⏳ طلبك قيد المراجعة</h3>
+
+  <p class="muted">
+  تم تسجيل طلب الدفع.
+  بعد مراجعة التحويل من المدرّس
+  سيتم فتح الكورس.
+  </p>
+
+  `;
+
+  list.innerHTML = '';
+
+ }
+
+
+ else{
+
+  box.innerHTML = `
+
+  <h3>❌ تم رفض الطلب</h3>
+
+  <p class="muted">
+  يمكنك إرسال طلب جديد.
+  </p>
+
+  <button onclick="openPayment()">
+  إعادة الاشتراك
+  </button>
+
+  `;
+
+  list.innerHTML = '';
+
+ }
+
+}
+
+
+/* فتح الدفع */
+
+function openPayment(){
+
+ if(!current)
+  return;
+
+
+ $('#payCourse').innerHTML =
+ `الكورس: <b>${esc(current.t)}</b>`;
+
+
+ $('#payPrice').textContent =
+ money(current.price);
+
+
+ $('#studentName').value = '';
+
+ $('#studentPhone').value =
+ localStorage.getItem('student_phone') || '';
+
+ $('#fromWallet').value = '';
+
+ $('#transferRef').value = '';
+
+ $('#studentNote').value = '';
+
+ $('#payMsg').textContent = '';
+
+ $('#paymentModal')
+ .classList.remove('hide');
+
+}
+
+
+function closePayment(){
+
+ $('#paymentModal')
+ .classList.add('hide');
+
+}
+
+
+/* إرسال طلب الدفع */
+
+async function submitPayment(){
+
+ const name =
+ $('#studentName').value.trim();
+
+ const phone =
+ $('#studentPhone').value.trim();
+
+ const wallet =
+ $('#fromWallet').value.trim();
+
+ const ref =
+ $('#transferRef').value.trim();
+
+ const note =
+ $('#studentNote').value.trim();
+
+
+ if(!name || !phone || !wallet){
+
+  $('#payMsg').textContent =
+  'اكتب اسم الطالب ورقم الهاتف ورقم المحفظة المحوِّلة.';
+
+  return;
+
+ }
+
+
+ $('#payMsg').textContent =
+ 'جاري إرسال طلب الاشتراك...';
+
+
+ const fullNote =
+
+ `الدفع إلى Vodafone Cash: 01003672766
+
+المحفظة المحوِّلة: ${wallet}
+
+رقم العملية/المرجع:
+${ref || 'غير مذكور'}
+
+${note ? 'ملاحظة: '+note : ''}`;
+
+
+ const r = await db
+ .from('enrollment_requests')
+ .insert({
+
+  id:crypto.randomUUID(),
+
+  course_id:current.id,
+
+  student_name:name,
+
+  student_phone:phone,
+
+  note:fullNote
+
+ });
+
+
+ if(r.error){
+
+  $('#payMsg').textContent =
+  'حدث خطأ: '+r.error.message;
+
+  return;
+
+ }
+
+
+ localStorage.setItem(
+  'student_phone',
+  phone
+ );
+
+
+ closePayment();
+
+ await refreshCourseAccess();
+
+
+ alert(
+ `تم إرسال طلب الاشتراك ✅
+
+بعد مراجعة التحويل سيقوم المدرّس بتفعيل الكورس.`
+ );
+
+}
+
+
+/* تشغيل الفيديو */
 
 async function play(id){
 
-const phone =
-localStorage.getItem('student_phone') || '';
+ const phone =
+ localStorage.getItem('student_phone') || '';
 
-if(!phone){
 
-alert(
-'الكورس مقفول. لازم إرسال طلب الاشتراك أولًا.'
-);
+ if(!phone){
 
-return;
+  alert('الكورس مقفول.');
+
+  return;
+
+ }
+
+
+ const l =
+ current.ls.find(x => x.id === id);
+
+
+ if(!l || !l.video_path){
+
+  alert('الفيديو غير متاح.');
+
+  return;
+
+ }
+
+
+ const r = await db
+ .from('enrollment_requests')
+ .select('status')
+ .eq('course_id',current.id)
+ .eq('student_phone',phone)
+ .eq('status','approved')
+ .limit(1);
+
+
+ if(
+  r.error ||
+  !r.data ||
+  !r.data.length
+ ){
+
+  alert(
+   'لازم يكون الاشتراك مقبول أولًا.'
+  );
+
+  return;
+
+ }
+
+
+ const s =
+ await db
+ .storage
+ .from('videos')
+ .createSignedUrl(
+  l.video_path,
+  3600
+ );
+
+
+ if(s.error){
+
+  alert(
+   'تعذر فتح الفيديو: '+
+   s.error.message
+  );
+
+  return;
+
+ }
+
+
+ $('#player').innerHTML = `
+
+ <div class="player">
+
+ <video
+ controls
+ playsinline
+ src="${s.data.signedUrl}">
+ </video>
+
+ </div>
+
+ `;
+
 }
 
-const l =
-current.ls.find(x => x.id === id);
 
-if(!l || !l.video_path){
-
-alert('الفيديو غير متاح حاليًا.');
-
-return;
-}
-
-const check =
-await db
-.from('enrollment_requests')
-.select('status')
-.eq('course_id',current.id)
-.eq('student_phone',phone)
-.eq('status','approved')
-.limit(1);
-
-if(
-check.error ||
-!check.data ||
-!check.data.length
-){
-
-alert(
-'لازم يكون اشتراكك مقبول أولًا.'
-);
-
-return;
-}
-
-const signed =
-await db.storage
-.from('videos')
-.createSignedUrl(
-l.video_path,
-60 * 60
-);
-
-if(signed.error){
-
-alert(
-'تعذر تشغيل الفيديو: ' +
-signed.error.message
-);
-
-return;
-}
-
-const videoUrl =
-signed.data.signedUrl;
-
-document.getElementById('player').innerHTML = `
-
-<div class="player">
-
-<video
-controls
-playsinline
-controlsList="nodownload"
-src="${esc(videoUrl)}">
-
-</video>
-
-<p class="muted small">
-الرابط مؤقت وآمن وينتهي بعد ساعة.
-</p>
-
-</div>
-
-`;
-
-}
+/* كورساتي */
 
 async function checkMyCourses(){
 
-const phone =
-document.getElementById('checkPhone').value.trim();
+ const phone =
+ $('#checkPhone').value.trim();
 
-const box =
-document.getElementById('myCoursesBox');
 
-if(!phone){
+ if(!phone){
 
-box.innerHTML =
-'<p class="status">اكتب رقم الهاتف أولًا.</p>';
+  $('#myCoursesBox').innerHTML =
+  '<p class="status">اكتب رقم الهاتف.</p>';
 
-return;
-}
+  return;
 
-localStorage.setItem('student_phone',phone);
+ }
 
-box.innerHTML =
-'جاري البحث...';
 
-const r =
-await db
-.from('enrollment_requests')
-.select('*')
-.eq('student_phone',phone)
-.order('created_at',{ascending:false});
+ localStorage.setItem(
+  'student_phone',
+  phone
+ );
 
-if(r.error){
 
-box.innerHTML = `
-<p class="status">
-حدث خطأ:
-${esc(r.error.message)}
-</p>
-`;
+ const r = await db
+ .from('enrollment_requests')
+ .select('course_id,status')
+ .eq('student_phone',phone);
 
-return;
-}
 
-if(!r.data || !r.data.length){
+ if(r.error){
 
-box.innerHTML = `
-<div class="lock-box">
-لا توجد طلبات اشتراك بهذا الرقم.
-</div>
-`;
+  $('#myCoursesBox').innerHTML =
+  '<p class="status">'+
+  esc(r.error.message)+
+  '</p>';
 
-return;
-}
+  return;
 
-box.innerHTML =
-r.data.map(x => {
+ }
 
-const course =
-data.find(c => c.id === x.course_id);
 
-const title =
-course ? course.t : 'كورس';
+ const rows = r.data || [];
 
-let statusText = 'قيد المراجعة';
-let badge = 'pending';
 
-if(x.status === 'approved'){
-statusText = 'مقبول ✅';
-badge = 'approved';
-}
+ if(!rows.length){
 
-if(x.status === 'rejected'){
-statusText = 'مرفوض ❌';
-badge = 'rejected';
-}
+  $('#myCoursesBox').innerHTML =
+  '<p class="muted">لا توجد طلبات بهذا الرقم.</p>';
 
-return `
+  return;
 
-<div class="lock-box">
+ }
 
-<h3>
-${esc(title)}
-</h3>
 
-<span class="badge ${badge}">
-${statusText}
-</span>
+ $('#myCoursesBox').innerHTML =
+ rows.map(x => {
 
-${
-x.status === 'approved'
-?
-`
-<br><br>
+  const c =
+   data.find(z => z.id === x.course_id);
 
-<button onclick="openCourse('${x.course_id}')">
-فتح الكورس
-</button>
-`
-:
-''
-}
 
-</div>
+  return `
 
-`;
+  <div class="lock">
 
-}).join('');
+  <b>
+  ${esc(c ? c.t : 'كورس')}
+  </b>
+
+  <br>
+
+  <span
+  class="badge ${esc(x.status)}">
+
+  ${
+   x.status === 'approved'
+   ? 'مفعل'
+   : x.status === 'pending'
+   ? 'قيد المراجعة'
+   : 'مرفوض'
+  }
+
+  </span>
+
+  </div>
+
+  `;
+
+ }).join('');
 
 }
+
+
+/* لوحة المدرس */
 
 async function teacherPanel(){
 
-const session =
-(await db.auth.getSession()).data.session;
+ const s =
+ (await db.auth.getSession()).data.session;
 
-if(!session){
 
-document
-.getElementById('login')
-.classList.remove('hide');
+ if(!s){
 
-return;
+  $('#login')
+  .classList.remove('hide');
+
+  return;
+
+ }
+
+
+ show('admin');
+
+ await admin();
+
 }
 
-show('admin');
 
-admin();
-
-}
+/* تسجيل دخول المدرس */
 
 async function login(){
 
-const email =
-document.getElementById('email').value.trim();
+ const r =
+ await db.auth.signInWithPassword({
 
-const password =
-document.getElementById('password').value;
+  email:
+  $('#email').value.trim(),
 
-const r =
-await db.auth.signInWithPassword({
-email:email,
-password:password
-});
+  password:
+  $('#password').value
 
-if(r.error){
+ });
 
-document.getElementById('err').textContent =
-'البريد أو كلمة المرور غير صحيحة';
 
-return;
+ if(r.error){
+
+  $('#err').textContent =
+  'البريد أو كلمة المرور غير صحيحة';
+
+  return;
+
+ }
+
+
+ $('#login')
+ .classList.add('hide');
+
+ show('admin');
+
+ await admin();
+
 }
 
-document.getElementById('login').classList.add('hide');
 
-show('admin');
-
-admin();
-
-}
+/* لوحة التحكم */
 
 async function admin(){
 
-document.getElementById('adminContent').innerHTML = `
+ $('#adminContent').innerHTML = `
 
-<h3>
-طلبات الاشتراك
-</h3>
+ <h3>
+ طلبات الاشتراك والدفع
+ </h3>
 
-<div id="requestsBox">
-جاري التحميل...
-</div>
+ <div id="requestsBox">
+ جاري التحميل...
+ </div>
 
-<hr>
+ <hr>
 
-<h3>
-إضافة كورس
-</h3>
+ <h3>
+ إضافة كورس
+ </h3>
 
-<input
-id="ct"
-placeholder="اسم الكورس">
+ <input
+ id="ct"
+ placeholder="اسم الكورس">
 
-<input
-id="cp"
-placeholder="السعر">
+ <input
+ id="cp"
+ placeholder="السعر">
 
-<textarea
-id="cd"
-placeholder="الوصف"></textarea>
+ <textarea
+ id="cd"
+ placeholder="الوصف">
+ </textarea>
 
-<button onclick="addCourse()">
-إضافة الكورس
-</button>
+ <button onclick="addCourse()">
+ إضافة الكورس
+ </button>
 
-<hr>
+ <hr>
 
-<h3>
-رفع فيديو
-</h3>
+ <h3>
+ رفع فيديو
+ </h3>
 
-<select id="sel">
+ <select id="sel">
 
-${data.map(c => `
-<option value="${c.id}">
-${esc(c.t)}
-</option>
-`).join('')}
+ ${
+  data.map(c =>
+  `<option value="${c.id}">
+   ${esc(c.t)}
+  </option>`
+  ).join('')
+ }
 
-</select>
+ </select>
 
-<input
-id="lt"
-placeholder="عنوان الحصة">
+ <input
+ id="lt"
+ placeholder="عنوان الحصة">
 
-<input
-id="vf"
-type="file"
-accept="video/*">
+ <input
+ id="vf"
+ type="file"
+ accept="video/*">
 
-<button onclick="upload()">
-رفع وحفظ الفيديو
-</button>
+ <button onclick="upload()">
+ رفع وحفظ الفيديو
+ </button>
 
-<p id="up" class="status"></p>
+ <p id="up" class="status"></p>
 
-<hr>
+ <hr>
 
-<h3>
-حذف كورس
-</h3>
+ <h3>
+ الكورسات
+ </h3>
 
-${data.map(c => `
+ ${
+  data.map(c => `
 
-<div
-class="lock-box"
-style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+  <div class="lock">
 
-<span>
-${esc(c.t)}
-</span>
+  <b>${esc(c.t)}</b>
 
-<button
-class="danger"
-onclick="del('${c.id}')">
+  —
+  ${c.ls.length}
+  حصص
 
-حذف
+  <button
+  class="danger smallbtn"
+  onclick="del('${c.id}')">
 
-</button>
+  حذف
 
-</div>
+  </button>
 
-`).join('')}
+  </div>
 
-<hr>
+  `).join('')
+ }
 
-<button class="ghost" onclick="logout()">
-تسجيل الخروج
-</button>
+ <br>
 
-`;
+ <button
+ class="ghost"
+ onclick="logout()">
 
-await loadRequests();
+ تسجيل الخروج
+
+ </button>
+
+ `;
+
+
+ await loadRequests();
 
 }
+
+
+/* طلبات الدفع */
 
 async function loadRequests(){
 
-const box =
-document.getElementById('requestsBox');
+ const box =
+ $('#requestsBox');
 
-if(!box)
-return;
 
-const r =
-await db
-.from('enrollment_requests')
-.select(
-'id,course_id,student_name,student_phone,note,status,created_at'
-)
-.order(
-'created_at',
-{ascending:false}
-);
+ if(!box)
+  return;
 
-if(r.error){
 
-box.innerHTML = `
-<p class="status">
-تعذر تحميل الطلبات:
-${esc(r.error.message)}
-</p>
-`;
+ const r =
+ await db
+ .from('enrollment_requests')
+ .select(
+  'id,course_id,student_name,student_phone,note,status,created_at'
+ )
+ .order(
+  'created_at',
+  {ascending:false}
+ );
 
-return;
+
+ if(r.error){
+
+  box.innerHTML =
+  '<p class="status">'+
+  'تعذر تحميل الطلبات: '+
+  esc(r.error.message)+
+  '</p>';
+
+  return;
+
+ }
+
+
+ const rows =
+ r.data || [];
+
+
+ box.innerHTML =
+
+ rows.length
+
+ ?
+
+ rows.map(x => {
+
+  const c =
+  data.find(z => z.id === x.course_id);
+
+
+  return `
+
+  <div class="lock">
+
+  <b>
+  ${esc(x.student_name)}
+  </b>
+
+  <br>
+
+  📱 ${esc(x.student_phone)}
+
+  <br>
+
+  🎓
+  <b>
+  ${esc(c ? c.t : 'كورس غير معروف')}
+  </b>
+
+  <br>
+
+  ${
+   x.note
+
+   ?
+
+   `<details>
+   <summary>
+   بيانات التحويل
+   </summary>
+
+   <p
+   class="muted"
+   style="white-space:pre-line">
+
+   ${esc(x.note)}
+
+   </p>
+
+   </details>`
+
+   :
+
+   ''
+  }
+
+  <span
+  class="badge ${esc(x.status)}">
+
+  ${
+   x.status === 'pending'
+   ? 'قيد المراجعة'
+   : x.status === 'approved'
+   ? 'مقبول'
+   : 'مرفوض'
+  }
+
+  </span>
+
+
+  ${
+   x.status === 'pending'
+
+   ?
+
+   `<div style="margin-top:10px">
+
+   <button
+   onclick="setRequest('${x.id}','approved')">
+
+   موافقة وتفعيل ✅
+
+   </button>
+
+   <button
+   class="danger"
+   style="margin-right:6px"
+   onclick="setRequest('${x.id}','rejected')">
+
+   رفض ❌
+
+   </button>
+
+   </div>`
+
+   :
+
+   ''
+  }
+
+  </div>
+
+  `;
+
+ }).join('')
+
+ :
+
+ '<p class="muted">لا توجد طلبات اشتراك حاليًا.</p>';
+
 }
 
-const rows = r.data || [];
 
-if(!rows.length){
-
-box.innerHTML =
-'<p class="muted">لا توجد طلبات اشتراك حاليًا.</p>';
-
-return;
-}
-
-box.innerHTML =
-rows.map(x => {
-
-const course =
-data.find(c => c.id === x.course_id);
-
-const courseName =
-course ? course.t : 'كورس غير معروف';
-
-let statusText = 'قيد المراجعة';
-let statusClass = 'pending';
-
-if(x.status === 'approved'){
-statusText = 'مقبول';
-statusClass = 'approved';
-}
-
-if(x.status === 'rejected'){
-statusText = 'مرفوض';
-statusClass = 'rejected';
-}
-
-return `
-
-<div class="lock-box">
-
-<b>
-${esc(x.student_name)}
-</b>
-
-<br>
-
-<span class="muted">
-${esc(x.student_phone)}
-</span>
-
-<br>
-
-<b>
-${esc(courseName)}
-</b>
-
-<br>
-
-${
-x.note
-?
-`
-<span class="muted">
-${esc(x.note)}
-</span>
-<br>
-`
-:
-''
-}
-
-<span class="badge ${statusClass}">
-${statusText}
-</span>
-
-${
-x.status === 'pending'
-?
-`
-<div style="margin-top:10px">
-
-<button onclick="setRequest('${x.id}','approved')">
-موافقة ✅
-</button>
-
-<button
-class="danger"
-style="margin-right:6px"
-onclick="setRequest('${x.id}','rejected')">
-
-رفض ❌
-
-</button>
-
-</div>
-`
-:
-''
-}
-
-</div>
-
-`;
-
-}).join('');
-
-}
+/* موافقة أو رفض */
 
 async function setRequest(id,status){
 
-const r =
-await db
-.from('enrollment_requests')
-.update({
+ const r =
+ await db
+ .from('enrollment_requests')
+ .update({
 
-status:status,
+  status,
 
-approved_at:
-status === 'approved'
-?
-new Date().toISOString()
-:
-null
+  approved_at:
+  status === 'approved'
+  ? new Date().toISOString()
+  : null
 
-})
-.eq('id',id);
+ })
+ .eq('id',id);
 
-if(r.error){
 
-alert(r.error.message);
+ if(r.error){
 
-return;
+  alert(r.error.message);
+
+  return;
+
+ }
+
+
+ await loadRequests();
+
 }
 
-await loadRequests();
 
-}
+/* إضافة كورس */
 
 async function addCourse(){
 
-const title =
-document.getElementById('ct').value.trim();
+ const title =
+ $('#ct').value.trim();
 
-const price =
-document.getElementById('cp').value.trim();
+ const price =
+ $('#cp').value.trim();
 
-const description =
-document.getElementById('cd').value.trim();
+ const description =
+ $('#cd').value.trim();
 
-if(!title){
 
-alert('اكتب اسم الكورس.');
+ if(!title){
 
-return;
+  alert('اكتب اسم الكورس.');
+
+  return;
+
+ }
+
+
+ const r =
+ await db
+ .from('courses')
+ .insert({
+
+  id:crypto.randomUUID(),
+
+  title,
+
+  price,
+
+  description
+
+ });
+
+
+ if(r.error){
+
+  alert(
+   'خطأ إضافة الكورس: '+
+   r.error.message
+  );
+
+  return;
+
+ }
+
+
+ await load();
+
+ await admin();
+
 }
 
-const r =
-await db
-.from('courses')
-.insert({
 
-id:crypto.randomUUID(),
-
-title:title,
-
-price:price,
-
-description:description
-
-});
-
-if(r.error){
-
-alert(r.error.message);
-
-return;
-}
-
-await load();
-
-admin();
-
-}
+/* رفع الفيديو */
 
 async function upload(){
 
-const file =
-document.getElementById('vf').files[0];
+ const f =
+ $('#vf').files[0];
 
-const courseId =
-document.getElementById('sel').value;
 
-const title =
-document.getElementById('lt').value.trim();
+ if(!f){
 
-const status =
-document.getElementById('up');
+  alert('اختر الفيديو أولًا.');
 
-if(!file){
+  return;
 
-alert('اختر الفيديو.');
+ }
 
-return;
+
+ const courseId =
+ $('#sel').value;
+
+
+ if(!courseId){
+
+  alert('أضف كورس أولًا.');
+
+  return;
+
+ }
+
+
+ const safe =
+ f.name.replace(
+  /[^\w\u0600-\u06FF.\- ]/g,
+  '_'
+ );
+
+
+ const path =
+ courseId+
+ '/'+
+ crypto.randomUUID()+
+ '-'+
+ safe;
+
+
+ $('#up').textContent =
+ 'جاري رفع الفيديو...';
+
+
+ const r =
+ await db
+ .storage
+ .from('videos')
+ .upload(
+  path,
+  f,
+  {
+   contentType:f.type,
+   upsert:false
+  }
+ );
+
+
+ if(r.error){
+
+  $('#up').textContent =
+  'فشل رفع الفيديو: '+
+  r.error.message;
+
+  return;
+
+ }
+
+
+ const q =
+ await db
+ .from('lessons')
+ .insert({
+
+  id:crypto.randomUUID(),
+
+  course_id:courseId,
+
+  title:
+  $('#lt').value.trim()
+  ||
+  'حصة جديدة',
+
+  video_path:path,
+
+  duration:
+  Math.round(
+   f.size/1048576
+  )+
+  ' MB'
+
+ });
+
+
+ if(q.error){
+
+  await db
+  .storage
+  .from('videos')
+  .remove([path]);
+
+
+  $('#up').textContent =
+  'تم رفع الملف لكن فشل حفظ الحصة: '+
+  q.error.message;
+
+  return;
+
+ }
+
+
+ $('#up').textContent =
+ 'تم رفع الفيديو وحفظ الحصة ✅';
+
+
+ await load();
+
+ await admin();
+
 }
 
-if(!title){
 
-alert('اكتب عنوان الحصة.');
-
-return;
-}
-
-status.textContent =
-'جاري الرفع...';
-
-const safeName =
-file.name.replace(
-/[^\w\u0600-\u06FF.\- ]/g,
-'_'
-);
-
-const path =
-courseId +
-'/' +
-crypto.randomUUID() +
-'-' +
-safeName;
-
-const r =
-await db.storage
-.from('videos')
-.upload(
-path,
-file,
-{
-contentType:file.type,
-upsert:false
-}
-);
-
-if(r.error){
-
-status.textContent =
-r.error.message;
-
-return;
-}
-
-const lesson =
-await db
-.from('lessons')
-.insert({
-
-id:crypto.randomUUID(),
-
-course_id:courseId,
-
-title:title,
-
-video_path:path,
-
-duration:
-Math.round(file.size / 1048576) +
-' MB'
-
-});
-
-if(lesson.error){
-
-await db.storage
-.from('videos')
-.remove([path]);
-
-status.textContent =
-lesson.error.message;
-
-return;
-}
-
-status.textContent =
-'تم رفع الفيديو وحفظ الحصة ✅';
-
-document.getElementById('lt').value = '';
-document.getElementById('vf').value = '';
-
-await load();
-
-admin();
-
-}
+/* حذف كورس */
 
 async function del(id){
 
-if(!confirm(
-'هل تريد حذف الكورس وكل الحصص الخاصة به؟'
-)){
+ if(
+  !confirm(
+   'حذف الكورس وكل فيديوهاته؟'
+  )
+ )
+ return;
 
-return;
+
+ const ls =
+ await db
+ .from('lessons')
+ .select('video_path')
+ .eq('course_id',id);
+
+
+ const files =
+ (ls.data || [])
+ .map(x => x.video_path)
+ .filter(Boolean);
+
+
+ if(files.length){
+
+  await db
+  .storage
+  .from('videos')
+  .remove(files);
+
+ }
+
+
+ const r =
+ await db
+ .from('courses')
+ .delete()
+ .eq('id',id);
+
+
+ if(r.error){
+
+  alert(r.error.message);
+
+  return;
+
+ }
+
+
+ await load();
+
+ await admin();
+
 }
 
-const lessons =
-await db
-.from('lessons')
-.select('video_path')
-.eq('course_id',id);
 
-const files =
-(lessons.data || [])
-.map(x => x.video_path)
-.filter(Boolean);
-
-if(files.length){
-
-await db.storage
-.from('videos')
-.remove(files);
-
-}
-
-const r =
-await db
-.from('courses')
-.delete()
-.eq('id',id);
-
-if(r.error){
-
-alert(r.error.message);
-
-return;
-}
-
-await load();
-
-admin();
-
-}
+/* تسجيل الخروج */
 
 async function logout(){
 
-await db.auth.signOut();
+ await db.auth.signOut();
 
-show('home');
+ show('home');
 
 }
 
-load()
-.catch(e => {
 
-document.getElementById('courses').innerHTML = `
+/* تشغيل الموقع */
 
-<div class="card">
+load().catch(e => {
 
-<p class="status">
-تعذر تحميل الكورسات:
-${esc(e.message)}
-</p>
-
-</div>
-
-`;
+ $('#courses').innerHTML =
+ '<p class="status">'+
+ 'تعذر التحميل: '+
+ esc(e.message)+
+ '</p>';
 
 });
 
 </script>
 
 </body>
-  </html>
+</html>
