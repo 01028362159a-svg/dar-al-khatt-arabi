@@ -165,7 +165,9 @@ color:#e4ad3e
 }
 .player video{
 width:100%;
-margin-top:12px
+margin-top:12px;
+border-radius:14px;
+background:#000
 }
 .lock-box{
 padding:18px;
@@ -272,11 +274,8 @@ margin:20px 0
 مع الأستاذ خالد سرحان.
 </p>
 
-<button
-onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
-
+<button onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
 تصفّح الكورسات
-
 </button>
 
 </div>
@@ -293,37 +292,25 @@ onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})"
 
 <p>المدرب: خالد سرحان</p>
 
-<p>
-📍 ميت عساس – سمنود – بجوار الجمعية الشرعية
-</p>
+<p>📍 ميت عساس – سمنود – بجوار الجمعية الشرعية</p>
 
-<p>
-✉ khaledsarhan85@gmail.com
-</p>
+<p>✉ khaledsarhan85@gmail.com</p>
 
-<p>
-☎ 01003672766 — 01111608193
-</p>
+<p>☎ 01003672766 — 01111608193</p>
 
 </div>
 
 </section>
 
-
 <section id="course" class="hide">
 
-<button
-class="ghost"
-onclick="show('home')">
-
+<button class="ghost" onclick="show('home')">
 رجوع
-
 </button>
 
 <div id="courseBox"></div>
 
 </section>
-
 
 <section id="mycourses" class="hide">
 
@@ -350,7 +337,6 @@ placeholder="رقم الهاتف">
 
 </section>
 
-
 <section id="admin" class="hide">
 
 <div class="card">
@@ -367,7 +353,6 @@ placeholder="رقم الهاتف">
 
 </main>
 
-
 <nav>
 
 <button onclick="show('home')">
@@ -376,16 +361,13 @@ placeholder="رقم الهاتف">
 الرئيسية
 </button>
 
-<button
-onclick="
+<button onclick="
 show('home');
 document.getElementById('courses').scrollIntoView({behavior:'smooth'})
 ">
-
 ✒
 <br>
 الكورسات
-
 </button>
 
 <button onclick="show('mycourses')">
@@ -401,7 +383,6 @@ document.getElementById('courses').scrollIntoView({behavior:'smooth'})
 </button>
 
 </nav>
-
 
 <div
 id="login"
@@ -434,26 +415,19 @@ placeholder="كلمة المرور">
 
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <script>
 
-const db =
-supabase.createClient(
+const db = supabase.createClient(
 "https://tshcvbiprtwricvdyzxi.supabase.co",
 "sb_publishable_PWNfw6H8wVbcf6DnWm1icQ_W40GknPF"
 );
 
-
 let data = [];
 let current = null;
 
-
-const $ = x =>
-document.querySelector(x);
-
+const $ = x => document.querySelector(x);
 
 const esc = x =>
 String(x ?? '')
@@ -465,26 +439,20 @@ String(x ?? '')
 "'":'&#39;'
 }[m]));
 
-
 function show(id){
 
 document
 .querySelectorAll('main>section')
-.forEach(x =>
-x.classList.add('hide')
-);
+.forEach(x => x.classList.add('hide'));
 
-const target =
-document.getElementById(id);
+const target = document.getElementById(id);
 
 if(target){
 target.classList.remove('hide');
 }
 
 scrollTo(0,0);
-
 }
-
 
 async function load(){
 
@@ -494,13 +462,10 @@ await db
 .select('*')
 .order('title',{ascending:true});
 
-
 if(courseResult.error)
 throw courseResult.error;
 
-
 data = [];
-
 
 for(const c of courseResult.data || []){
 
@@ -511,36 +476,25 @@ await db
 .eq('course_id',c.id)
 .order('title',{ascending:true});
 
-
 if(lessonResult.error)
 throw lessonResult.error;
 
-
 data.push({
-
 ...c,
-
 t:c.title,
-
 g:(c.title || 'ك')[0],
-
 ls:lessonResult.data || []
-
 });
 
 }
-
 
 render();
 
 }
 
-
 function render(){
 
-const box =
-document.getElementById('courses');
-
+const box = document.getElementById('courses');
 
 if(!data.length){
 
@@ -548,13 +502,10 @@ box.innerHTML =
 '<div class="card">لا توجد كورسات حاليًا.</div>';
 
 return;
-
 }
 
-
 box.innerHTML =
-data
-.map(c => `
+data.map(c => `
 
 <button
 class="course"
@@ -570,9 +521,7 @@ ${esc(c.g)}
 
 <span class="course-info">
 
-<b>
-${esc(c.t)}
-</b>
+<b>${esc(c.t)}</b>
 
 <br>
 
@@ -594,24 +543,18 @@ ${esc(c.price || '')}
 
 </button>
 
-`)
-.join('');
+`).join('');
 
 }
 
-
 async function openCourse(id){
 
-current =
-data.find(c => c.id === id);
-
+current = data.find(c => c.id === id);
 
 if(!current)
 return;
 
-
 show('course');
-
 
 document.getElementById('courseBox').innerHTML = `
 
@@ -625,12 +568,8 @@ document.getElementById('courseBox').innerHTML = `
 ${esc(current.description || '')}
 </p>
 
-<div
-id="accessBox"
-class="lock-box">
-
+<div id="accessBox" class="lock-box">
 جاري التحقق من الاشتراك...
-
 </div>
 
 <div id="player"></div>
@@ -638,43 +577,31 @@ class="lock-box">
 <div id="lessonList"></div>
 
 </div>
-
 `;
-
 
 await refreshCourseAccess();
 
 }
 
-
 async function refreshCourseAccess(){
 
-const box =
-document.getElementById('accessBox');
-
-const list =
-document.getElementById('lessonList');
-
+const box = document.getElementById('accessBox');
+const list = document.getElementById('lessonList');
 
 if(!current)
 return;
 
-
 const phone =
 localStorage.getItem('student_phone') || '';
-
 
 if(!phone){
 
 box.innerHTML = `
 
-<h3>
-🔒 الكورس مقفول
-</h3>
+<h3>🔒 الكورس مقفول</h3>
 
 <p class="muted">
-هذا الكورس متاح فقط للطلاب
-الذين تم قبول اشتراكهم.
+هذا الكورس متاح فقط للطلاب الذين تم قبول اشتراكهم.
 </p>
 
 <button onclick="showSubscribe()">
@@ -686,9 +613,7 @@ box.innerHTML = `
 list.innerHTML = '';
 
 return;
-
 }
-
 
 const r =
 await db
@@ -699,33 +624,23 @@ await db
 .order('created_at',{ascending:false})
 .limit(1);
 
-
 if(r.error){
 
-box.innerHTML = `
-<p class="status">
-تعذر التحقق من حالة الاشتراك.
-</p>
-`;
+box.innerHTML =
+'<p class="status">تعذر التحقق من حالة الاشتراك.</p>';
 
 list.innerHTML = '';
 
 return;
-
 }
 
-
-const row =
-(r.data || [])[0];
-
+const row = (r.data || [])[0];
 
 if(!row){
 
 box.innerHTML = `
 
-<h3>
-🔒 الكورس مقفول
-</h3>
+<h3>🔒 الكورس مقفول</h3>
 
 <p class="muted">
 لم يتم إرسال طلب اشتراك لهذا الرقم.
@@ -740,9 +655,7 @@ box.innerHTML = `
 list.innerHTML = '';
 
 return;
-
 }
-
 
 if(row.status === 'approved'){
 
@@ -750,18 +663,14 @@ box.innerHTML = `
 
 <div class="status-box approved-box">
 
-<h3>
-✅ الاشتراك مفعل
-</h3>
+<h3>✅ الاشتراك مفعل</h3>
 
 <p>
 تم قبول اشتراكك ويمكنك مشاهدة الحصص.
 </p>
 
 </div>
-
 `;
-
 
 if(!current.ls.length){
 
@@ -772,62 +681,49 @@ list.innerHTML = `
 `;
 
 return;
-
 }
 
-
 list.innerHTML =
-current.ls
-.map(l => `
+current.ls.map(l => `
 
 <button
 class="lesson-button"
 onclick="play('${l.id}')">
 
-🎬
-${esc(l.title)}
+🎬 ${esc(l.title)}
 
 </button>
 
-`)
-.join('');
+`).join('');
 
-
+return;
 }
 
-
-else if(row.status === 'pending'){
+if(row.status === 'pending'){
 
 box.innerHTML = `
 
 <div class="status-box pending-box">
 
-<h3>
-⏳ الطلب قيد المراجعة
-</h3>
+<h3>⏳ الطلب قيد المراجعة</h3>
 
 <p>
 تم إرسال طلبك وبانتظار موافقة المدرّس.
 </p>
 
 </div>
-
 `;
 
 list.innerHTML = '';
 
+return;
 }
-
-
-else{
 
 box.innerHTML = `
 
 <div class="status-box rejected-box">
 
-<h3>
-❌ تم رفض الطلب
-</h3>
+<h3>❌ تم رفض الطلب</h3>
 
 <p>
 يمكنك إرسال طلب اشتراك جديد.
@@ -838,27 +734,19 @@ box.innerHTML = `
 <button onclick="showSubscribe()">
 📝 إرسال طلب جديد
 </button>
-
 `;
 
 list.innerHTML = '';
 
 }
 
-}
-
-
 function showSubscribe(){
 
-const box =
-document.getElementById('accessBox');
-
+const box = document.getElementById('accessBox');
 
 box.innerHTML = `
 
-<h3>
-📝 طلب الاشتراك
-</h3>
+<h3>📝 طلب الاشتراك</h3>
 
 <input
 id="sn"
@@ -886,43 +774,25 @@ onclick="refreshCourseAccess()">
 
 </button>
 
-<p
-id="reqStatus"
-class="status">
-</p>
+<p id="reqStatus" class="status"></p>
 
 `;
 
 }
 
-
 async function submitRequest(){
 
 const name =
-document
-.getElementById('sn')
-.value
-.trim();
-
+document.getElementById('sn').value.trim();
 
 const phone =
-document
-.getElementById('sp')
-.value
-.trim();
-
+document.getElementById('sp').value.trim();
 
 const note =
-document
-.getElementById('sm')
-.value
-.trim();
-
+document.getElementById('sm').value.trim();
 
 const status =
-document
-.getElementById('reqStatus');
-
+document.getElementById('reqStatus');
 
 if(!name || !phone){
 
@@ -930,13 +800,10 @@ status.textContent =
 'اكتب الاسم ورقم الهاتف أولًا';
 
 return;
-
 }
-
 
 status.textContent =
 'جاري إرسال الطلب...';
-
 
 const existing =
 await db
@@ -947,60 +814,40 @@ await db
 .order('created_at',{ascending:false})
 .limit(1);
 
-
 if(existing.error){
 
 status.textContent =
 'حدث خطأ أثناء التحقق.';
 
 return;
-
 }
-
 
 const old =
 (existing.data || [])[0];
 
-
 if(old && old.status === 'approved'){
 
-localStorage.setItem(
-'student_phone',
-phone
-);
+localStorage.setItem('student_phone',phone);
 
 status.textContent =
 'أنت مشترك بالفعل في هذا الكورس.';
 
-setTimeout(
-refreshCourseAccess,
-500
-);
+setTimeout(refreshCourseAccess,500);
 
 return;
-
 }
-
 
 if(old && old.status === 'pending'){
 
-localStorage.setItem(
-'student_phone',
-phone
-);
+localStorage.setItem('student_phone',phone);
 
 status.textContent =
 'يوجد طلب قيد المراجعة بالفعل.';
 
-setTimeout(
-refreshCourseAccess,
-500
-);
+setTimeout(refreshCourseAccess,500);
 
 return;
-
 }
-
 
 const r =
 await db
@@ -1008,52 +855,36 @@ await db
 .insert({
 
 course_id:current.id,
-
 student_name:name,
-
 student_phone:phone,
-
 note:note,
-
 status:'pending'
 
 });
 
-
 if(r.error){
 
 status.textContent =
-'حدث خطأ: ' +
-r.error.message;
+'حدث خطأ: ' + r.error.message;
 
 return;
-
 }
 
-
-localStorage.setItem(
-'student_phone',
-phone
-);
-
+localStorage.setItem('student_phone',phone);
 
 status.textContent =
 'تم إرسال الطلب بنجاح ✅';
 
-
-setTimeout(
-refreshCourseAccess,
-700
-);
+setTimeout(refreshCourseAccess,700);
 
 }
 
+/* تشغيل الفيديو بعد الموافقة باستخدام Signed URL */
 
 async function play(id){
 
 const phone =
 localStorage.getItem('student_phone') || '';
-
 
 if(!phone){
 
@@ -1062,26 +893,17 @@ alert(
 );
 
 return;
-
 }
 
-
 const l =
-current.ls.find(
-x => x.id === id
-);
-
+current.ls.find(x => x.id === id);
 
 if(!l || !l.video_path){
 
-alert(
-'الفيديو غير متاح حاليًا.'
-);
+alert('الفيديو غير متاح حاليًا.');
 
 return;
-
 }
-
 
 const check =
 await db
@@ -1091,7 +913,6 @@ await db
 .eq('student_phone',phone)
 .eq('status','approved')
 .limit(1);
-
 
 if(
 check.error ||
@@ -1104,27 +925,28 @@ alert(
 );
 
 return;
-
 }
 
-
-let videoUrl =
-l.video_path;
-
-
-if(
-videoUrl &&
-!videoUrl.startsWith('http')
-){
-
-videoUrl =
-db.storage
+const signed =
+await db.storage
 .from('videos')
-.getPublicUrl(videoUrl)
-.data.publicUrl;
+.createSignedUrl(
+l.video_path,
+60 * 60
+);
 
+if(signed.error){
+
+alert(
+'تعذر تشغيل الفيديو: ' +
+signed.error.message
+);
+
+return;
 }
 
+const videoUrl =
+signed.data.signedUrl;
 
 document.getElementById('player').innerHTML = `
 
@@ -1138,25 +960,23 @@ src="${esc(videoUrl)}">
 
 </video>
 
+<p class="muted small">
+الرابط مؤقت وآمن وينتهي بعد ساعة.
+</p>
+
 </div>
 
 `;
 
 }
 
-
 async function checkMyCourses(){
 
 const phone =
-document
-.getElementById('checkPhone')
-.value
-.trim();
-
+document.getElementById('checkPhone').value.trim();
 
 const box =
 document.getElementById('myCoursesBox');
-
 
 if(!phone){
 
@@ -1164,19 +984,12 @@ box.innerHTML =
 '<p class="status">اكتب رقم الهاتف أولًا.</p>';
 
 return;
-
 }
 
-
-localStorage.setItem(
-'student_phone',
-phone
-);
-
+localStorage.setItem('student_phone',phone);
 
 box.innerHTML =
 'جاري البحث...';
-
 
 const r =
 await db
@@ -1184,7 +997,6 @@ await db
 .select('*')
 .eq('student_phone',phone)
 .order('created_at',{ascending:false});
-
 
 if(r.error){
 
@@ -1196,9 +1008,7 @@ ${esc(r.error.message)}
 `;
 
 return;
-
 }
-
 
 if(!r.data || !r.data.length){
 
@@ -1209,55 +1019,29 @@ box.innerHTML = `
 `;
 
 return;
-
 }
-
 
 box.innerHTML =
-r.data
-.map(x => {
+r.data.map(x => {
 
 const course =
-data.find(
-c => c.id === x.course_id
-);
-
+data.find(c => c.id === x.course_id);
 
 const title =
-course
-? course.t
-: 'كورس';
+course ? course.t : 'كورس';
 
-
-let statusText =
-'قيد المراجعة';
-
-
-let badge =
-'pending';
-
+let statusText = 'قيد المراجعة';
+let badge = 'pending';
 
 if(x.status === 'approved'){
-
-statusText =
-'مقبول ✅';
-
-badge =
-'approved';
-
+statusText = 'مقبول ✅';
+badge = 'approved';
 }
-
 
 if(x.status === 'rejected'){
-
-statusText =
-'مرفوض ❌';
-
-badge =
-'rejected';
-
+statusText = 'مرفوض ❌';
+badge = 'rejected';
 }
-
 
 return `
 
@@ -1277,11 +1061,8 @@ x.status === 'approved'
 `
 <br><br>
 
-<button
-onclick="openCourse('${x.course_id}')">
-
+<button onclick="openCourse('${x.course_id}')">
 فتح الكورس
-
 </button>
 `
 :
@@ -1292,18 +1073,14 @@ onclick="openCourse('${x.course_id}')">
 
 `;
 
-})
-.join('');
+}).join('');
 
 }
-
 
 async function teacherPanel(){
 
 const session =
-(await db.auth.getSession())
-.data.session;
-
+(await db.auth.getSession()).data.session;
 
 if(!session){
 
@@ -1312,58 +1089,37 @@ document
 .classList.remove('hide');
 
 return;
-
 }
-
 
 show('admin');
 
 admin();
 
 }
-
 
 async function login(){
 
 const email =
-document
-.getElementById('email')
-.value
-.trim();
-
+document.getElementById('email').value.trim();
 
 const password =
-document
-.getElementById('password')
-.value;
-
+document.getElementById('password').value;
 
 const r =
 await db.auth.signInWithPassword({
-
 email:email,
-
 password:password
-
 });
-
 
 if(r.error){
 
-document
-.getElementById('err')
-.textContent =
+document.getElementById('err').textContent =
 'البريد أو كلمة المرور غير صحيحة';
 
 return;
-
 }
 
-
-document
-.getElementById('login')
-.classList.add('hide');
-
+document.getElementById('login').classList.add('hide');
 
 show('admin');
 
@@ -1371,12 +1127,9 @@ admin();
 
 }
 
-
 async function admin(){
 
-document
-.getElementById('adminContent')
-.innerHTML = `
+document.getElementById('adminContent').innerHTML = `
 
 <h3>
 طلبات الاشتراك
@@ -1416,13 +1169,11 @@ placeholder="الوصف"></textarea>
 
 <select id="sel">
 
-${data
-.map(c => `
+${data.map(c => `
 <option value="${c.id}">
 ${esc(c.t)}
 </option>
-`)
-.join('')}
+`).join('')}
 
 </select>
 
@@ -1447,8 +1198,7 @@ accept="video/*">
 حذف كورس
 </h3>
 
-${data
-.map(c => `
+${data.map(c => `
 
 <div
 class="lock-box"
@@ -1468,17 +1218,12 @@ onclick="del('${c.id}')">
 
 </div>
 
-`)
-.join('')}
+`).join('')}
 
 <hr>
 
-<button
-class="ghost"
-onclick="logout()">
-
+<button class="ghost" onclick="logout()">
 تسجيل الخروج
-
 </button>
 
 `;
@@ -1487,18 +1232,13 @@ await loadRequests();
 
 }
 
-
 async function loadRequests(){
 
 const box =
-document.getElementById(
-'requestsBox'
-);
-
+document.getElementById('requestsBox');
 
 if(!box)
 return;
-
 
 const r =
 await db
@@ -1511,7 +1251,6 @@ await db
 {ascending:false}
 );
 
-
 if(r.error){
 
 box.innerHTML = `
@@ -1522,13 +1261,9 @@ ${esc(r.error.message)}
 `;
 
 return;
-
 }
 
-
-const rows =
-r.data || [];
-
+const rows = r.data || [];
 
 if(!rows.length){
 
@@ -1536,55 +1271,29 @@ box.innerHTML =
 '<p class="muted">لا توجد طلبات اشتراك حاليًا.</p>';
 
 return;
-
 }
-
 
 box.innerHTML =
-rows
-.map(x => {
+rows.map(x => {
 
 const course =
-data.find(
-c => c.id === x.course_id
-);
-
+data.find(c => c.id === x.course_id);
 
 const courseName =
-course
-? course.t
-: 'كورس غير معروف';
+course ? course.t : 'كورس غير معروف';
 
-
-let statusText =
-'قيد المراجعة';
-
-
-let statusClass =
-'pending';
-
+let statusText = 'قيد المراجعة';
+let statusClass = 'pending';
 
 if(x.status === 'approved'){
-
-statusText =
-'مقبول';
-
-statusClass =
-'approved';
-
+statusText = 'مقبول';
+statusClass = 'approved';
 }
-
 
 if(x.status === 'rejected'){
-
-statusText =
-'مرفوض';
-
-statusClass =
-'rejected';
-
+statusText = 'مرفوض';
+statusClass = 'rejected';
 }
-
 
 return `
 
@@ -1631,11 +1340,8 @@ x.status === 'pending'
 `
 <div style="margin-top:10px">
 
-<button
-onclick="setRequest('${x.id}','approved')">
-
+<button onclick="setRequest('${x.id}','approved')">
 موافقة ✅
-
 </button>
 
 <button
@@ -1657,11 +1363,9 @@ onclick="setRequest('${x.id}','rejected')">
 
 `;
 
-})
-.join('');
+}).join('');
 
 }
-
 
 async function setRequest(id,status){
 
@@ -1682,54 +1386,34 @@ null
 })
 .eq('id',id);
 
-
 if(r.error){
 
 alert(r.error.message);
 
 return;
-
 }
-
 
 await loadRequests();
 
 }
 
-
 async function addCourse(){
 
 const title =
-document
-.getElementById('ct')
-.value
-.trim();
-
+document.getElementById('ct').value.trim();
 
 const price =
-document
-.getElementById('cp')
-.value
-.trim();
-
+document.getElementById('cp').value.trim();
 
 const description =
-document
-.getElementById('cd')
-.value
-.trim();
-
+document.getElementById('cd').value.trim();
 
 if(!title){
 
-alert(
-'اكتب اسم الكورس.'
-);
+alert('اكتب اسم الكورس.');
 
 return;
-
 }
-
 
 const r =
 await db
@@ -1746,15 +1430,12 @@ description:description
 
 });
 
-
 if(r.error){
 
 alert(r.error.message);
 
 return;
-
 }
-
 
 await load();
 
@@ -1762,66 +1443,42 @@ admin();
 
 }
 
-
 async function upload(){
 
 const file =
-document
-.getElementById('vf')
-.files[0];
-
+document.getElementById('vf').files[0];
 
 const courseId =
-document
-.getElementById('sel')
-.value;
-
+document.getElementById('sel').value;
 
 const title =
-document
-.getElementById('lt')
-.value
-.trim();
-
+document.getElementById('lt').value.trim();
 
 const status =
-document
-.getElementById('up');
-
+document.getElementById('up');
 
 if(!file){
 
-alert(
-'اختر الفيديو.'
-);
+alert('اختر الفيديو.');
 
 return;
-
 }
-
 
 if(!title){
 
-alert(
-'اكتب عنوان الحصة.'
-);
+alert('اكتب عنوان الحصة.');
 
 return;
-
 }
-
 
 status.textContent =
 'جاري الرفع...';
 
-
 const safeName =
-file.name
-.replace(
+file.name.replace(
 /[^\w\u0600-\u06FF.\- ]/g,
 '_'
 );
-
 
 const path =
 courseId +
@@ -1829,7 +1486,6 @@ courseId +
 crypto.randomUUID() +
 '-' +
 safeName;
-
 
 const r =
 await db.storage
@@ -1843,16 +1499,13 @@ upsert:false
 }
 );
 
-
 if(r.error){
 
 status.textContent =
 r.error.message;
 
 return;
-
 }
-
 
 const lesson =
 await db
@@ -1868,13 +1521,10 @@ title:title,
 video_path:path,
 
 duration:
-Math.round(
-file.size / 1048576
-) +
+Math.round(file.size / 1048576) +
 ' MB'
 
 });
-
 
 if(lesson.error){
 
@@ -1882,28 +1532,17 @@ await db.storage
 .from('videos')
 .remove([path]);
 
-
 status.textContent =
 lesson.error.message;
 
 return;
-
 }
-
 
 status.textContent =
 'تم رفع الفيديو وحفظ الحصة ✅';
 
-
-document
-.getElementById('lt')
-.value = '';
-
-
-document
-.getElementById('vf')
-.value = '';
-
+document.getElementById('lt').value = '';
+document.getElementById('vf').value = '';
 
 await load();
 
@@ -1911,19 +1550,14 @@ admin();
 
 }
 
-
 async function del(id){
 
-if(
-!confirm(
+if(!confirm(
 'هل تريد حذف الكورس وكل الحصص الخاصة به؟'
-)
-){
+)){
 
 return;
-
 }
-
 
 const lessons =
 await db
@@ -1931,12 +1565,10 @@ await db
 .select('video_path')
 .eq('course_id',id);
 
-
 const files =
 (lessons.data || [])
 .map(x => x.video_path)
 .filter(Boolean);
-
 
 if(files.length){
 
@@ -1946,29 +1578,24 @@ await db.storage
 
 }
 
-
 const r =
 await db
 .from('courses')
 .delete()
 .eq('id',id);
 
-
 if(r.error){
 
 alert(r.error.message);
 
 return;
-
 }
-
 
 await load();
 
 admin();
 
 }
-
 
 async function logout(){
 
@@ -1978,13 +1605,10 @@ show('home');
 
 }
 
-
 load()
 .catch(e => {
 
-document
-.getElementById('courses')
-.innerHTML = `
+document.getElementById('courses').innerHTML = `
 
 <div class="card">
 
@@ -2002,4 +1626,4 @@ ${esc(e.message)}
 </script>
 
 </body>
-</html>
+  </html>
